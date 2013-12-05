@@ -1,0 +1,9 @@
+syntax: glob
+.DS_Store
+*.egg-info
+*.pyc
+*.swp
+*.swo
+*~
+build/
+dist/
