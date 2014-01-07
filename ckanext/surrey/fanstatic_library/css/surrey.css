@@ -1,0 +1,13 @@
+.media-heading {
+display: none;
+}
+
+.module-content.box {
+overflow: hidden;
+}
+
+.hero-primary header {
+width: 370px;
+float: left;
+margin-right: 33px;
+}

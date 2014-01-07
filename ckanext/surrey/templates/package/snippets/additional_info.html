@@ -55,6 +55,35 @@
         </tr>
       {% endif %}
 
+      {% if pkg_dict.update_frequency %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("Update Frequency") }}</th>
+          <td class="dataset-details">{{ pkg_dict.update_frequency}}</td>
+        </tr>
+      {% endif %}
+
+
+      {% if pkg_dict.coordinate_system %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("Coordinate system") }}</th>
+          <td class="dataset-details">{{ pkg_dict.coordinate_system }}</td>
+        </tr>
+      {% endif %}
+
+      {% if pkg_dict.more_information %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("More information") }}</th>
+          <td class="dataset-details">{{ pkg_dict.more_information }}</td>
+        </tr>
+      {% endif %}
+
+      {% if pkg_dict.attribute_details %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("Attribute details") }}</th>
+          <td class="dataset-details">{{ pkg_dict.attribute_details}}</td>
+        </tr>
+      {% endif %}
+
       {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
         <!-- Removed -->
         <!--tr>
@@ -63,18 +92,16 @@
         </tr-->
       {% endif %}
 
-      {% for extra in h.sorted_extras(pkg_dict.extras) %}
+      {# for extra in h.sorted_extras(pkg_dict.extras) %}
         {% set key, value = extra %}
         <tr rel="dc:relation" resource="_:extra{{ i }}">
           <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}</th>
           <td class="dataset-details" property="rdf:value">{{ value }}</td>
         </tr>
-        {% endfor %}
+        {% endfor #}
     </tbody> 
 
   </table>
-
-    {{ pkg_dict }}
 
  {% block disqus_comments %}{{ h.disqus_comments() }}{% endblock %}
 </section>

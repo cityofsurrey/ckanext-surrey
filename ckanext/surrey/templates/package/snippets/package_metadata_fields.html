@@ -1,0 +1,27 @@
+{% ckan_extends %}
+
+{% block custom_fields %}
+{% endblock %}
+
+{% block package_metadata_fields_custom %}
+
+{{ form.input('coordinate_system', label=_('Coordinate system'), id='field-coordinate_system', placeholder=_('WGS84, etc.'), value=data.coordinate_system, error=errors.coordinate_system, classes=['control-medium']) }}
+
+{{ form.input('more_information', label=_('More information'), id='field-more_information', placeholder=_('...'), value=data.more_information, error=errors.more_information, classes=['control-medium']) }}
+
+{{ form.input('attribute_details', label=_('Attribute details'), id='field-attribute_details', placeholder=_('...'), value=data.attribute_details, error=errors.attribute_details, classes=['control-medium']) }}
+
+  <div class="control-group">
+    <label class="control-label" for="field-update_frequency">{{ _("Update Frequency") }}</label>
+    <div class="controls">
+      <select id="field-update_frequency" name="update_frequency">
+        {% for update_frequency in h.update_frequency()  %}
+          <option value="{{ update_frequency }}" {% if update_frequency in data.get('update_frequency', []) %}selected="selected"{% endif %}>{{ update_frequency }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+ {{ super() }}
+
+{% endblock %}

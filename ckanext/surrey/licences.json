@@ -1,0 +1,28 @@
+[
+    {
+        "domain_content": false,
+        "domain_data": true,
+        "domain_software": false,
+        "family": "",
+        "id": "OGL-Surrey",
+        "is_okd_compliant": true,
+        "is_osi_compliant": false,
+        "maintainer": "City of Surrey",
+        "status": "active",
+        "title": "Open Government License - City of Surrey",
+        "url": "http://www.surrey.ca/files/Open_Government_License_-_City_of_Surrey_v1.pdf"
+    },
+    {
+        "domain_content": false,
+        "domain_data": true,
+        "domain_software": false,
+        "family": "",
+        "id": "SCOL",
+        "is_okd_compliant": true,
+        "is_osi_compliant": false,
+        "maintainer": "Statistics Canada",
+        "status": "active",
+        "title": "Statistics Canada Open Licence",
+        "url": "http://www.statcan.gc.ca/eng/reference/licence-eng"
+    }
+]
