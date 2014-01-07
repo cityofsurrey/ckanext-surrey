@@ -19,7 +19,7 @@ The `plugin.py` file contains the core features of the extention. First, it list
         plugins.toolkit.add_template_directory(config, 'templates')
         plugins.toolkit.add_public_directory(config, 'public')
         plugins.toolkit.add_resource('fanstatic_library', 'ckanext-surrey')
-``
+```
 
 - `add_template_directory` tells CKAN to use a directory (in our case `templates`) to search for custom templates.
 - `add_public_directory` tells CKAN that a given directory (in our case `public`) will contain files that have to be made public, mainly images.
