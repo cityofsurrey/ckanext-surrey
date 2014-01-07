@@ -1,4 +1,4 @@
-# Customizing CKAN - Surrey Extension
+# Customizing CKAN - City of Surrey Extension
 
 This document explains some of the changes done for the CKAN Surrey extension, mainly to customize the apparence of CKAN, as well as some configuration changed.
 
@@ -15,7 +15,7 @@ In its current state, the Surrey CKAN extension does the following:
 
 The `plugin.py` file contains the core features of the extention. First, it lists the various directories used by the extension and their usage:
 
-``
+```
         plugins.toolkit.add_template_directory(config, 'templates')
         plugins.toolkit.add_public_directory(config, 'public')
         plugins.toolkit.add_resource('fanstatic_library', 'ckanext-surrey')
@@ -58,7 +58,7 @@ In order to have a complete understanding of the Jinja2 templating system, one s
 As explained in the CKAN documentation about [templating](http://docs.ckan.org/en/latest/templating.html#templating-within-extensions), Jinja2 works by declaring blocks of code. A block is defined as follow:
 
 ```
-{% block my block %}
+{% block my_block %}
     <p>This will be print something in HTML</p>
 {% endblock %}
 ```
