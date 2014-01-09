@@ -13,6 +13,21 @@ The extension contains the following features:
 
 More documentation available in [ckanext/surrey/docs/customization.md](ckanext/surrey/docs/customization.md)
 
+## Prerequisite
+
+This extension needs the stats extension to be activated with the tracking options
+
+```
+ckan.plugins =  ... stats ...
+ckan.tracking_enabled = true 
+```
+
+In order to refresh the most popular dataset values, the following commands must be executed from time to time (hourly or daily)
+```
+paster tracking update 
+paster search-index rebuild 
+```
+
 ## Installation
 
 Activate your pyenv and go to the CKAN root, for example:
