@@ -1,12 +1,12 @@
-.media-heading {
+.intro-text .media-heading {
 display: none;
 }
 
 .module-content.box {
-overflow: hidden;
+padding-bottom: 10px;
 }
 
-.hero-primary header {
+.intro-text header {
 width: 370px;
 float: left;
 margin-right: 33px;

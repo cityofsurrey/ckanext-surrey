@@ -1,13 +1,9 @@
     {% ckan_extends %}
 
-    {% block home_image_content %}
-      <img src="{% url_for_static('/images/homepage-graphic.jpg') %}" width="479" height="298" />
-    {% endblock %}
-
-
 
     {% block meta %}
       {{ super() }}
+      <link href="feeds/dataset.atom" rel="alternate" title="Carnets de vie" type="application/atom+xml">
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
       <script>
          function format_date(str) {
@@ -44,51 +40,3 @@
          });
       </script>
     {% endblock %}
-
-
-    {% block secondary_content %}
-
-  <div class="row group-listing">
-      <div class="span6">
-        <div class="box">
-          <section class="group-list module module-narrow module-shallow">
-            <header class="module-heading media">
-              <div class="media-content">
-                <h3 class="media-heading">Popular datasets</h3>
-                <p>Most viewed dataset during the last 14 days</p>
-              </div>
-            </header>
-  
-           <ul id="popular-list" class="unstyled dataset-list">
-    
-           </ul>
-
-         </section>
-
-        </div>
-      </div>
-
-      <div class="span6">
-        <div class="box">
-          <section class="group-list module module-narrow module-shallow">
-            <header class="module-heading media">
-              <div class="media-content">
-                <h3 class="media-heading">Recently updated</h3>
-                <p>Datasets recently modified</p>
-              </div>
-            </header>
-
-           <ul id="recent-list" class="unstyled dataset-list">
-
-           </ul>
-
-         </section>
-
-        </div>
-      </div>
-  </div>
-        <div class="atomfeed"><a href="feeds/custom.atom?sort=metadata_modified%20desc">Atom feed</a></div>
-    {% endblock %}
-
-
-
