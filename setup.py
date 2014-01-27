@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9'
+version = '0.8'
 
 setup(
 	name='ckanext-surrey',
