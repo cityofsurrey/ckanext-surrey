@@ -11,3 +11,9 @@ width: 370px;
 float: left;
 margin-right: 33px;
 }
+
+
+.hero {
+background: url("/images/background-tile.jpg");
+}
+
