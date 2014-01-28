@@ -25,6 +25,10 @@ margin-right: 33px;
     margin-right: 0px;
 }
 
+.masthead .navigation .nav-pills li a:hover, .masthead .navigation .nav-pills li.active a {
+    background-color: #7e9b35;
+}
+
 .account-masthead .account ul li a {
     color: #7E9B35;
 }
@@ -33,5 +37,6 @@ margin-right: 33px;
     background-color: #7A7A7A;
     border-radius: 0px;
 }
+
 
 
