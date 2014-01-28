@@ -17,7 +17,7 @@ margin-right: 33px;
     background: url("../../../base/images/bg.png") repeat scroll 0 0 #D7D3C6;
 }
 
-masthead {
+.masthead {
     background: url("../../../base/images/bg.png") repeat scroll 0 0 #F0EADE;
 }
 
@@ -25,7 +25,13 @@ masthead {
     margin-right: 0px;
 }
 
+.account-masthead .account ul li a {
+    color: #7E9B35;
+}
+
 .nav-pills li a {
     background-color: #7A7A7A;
     border-radius: 0px;
 }
+
+
