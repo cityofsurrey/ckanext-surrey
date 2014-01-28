@@ -13,7 +13,19 @@ margin-right: 33px;
 }
 
 
-.hero {
-background: url("/images/background-tile.png");
+.account-masthead {
+    background: url("../../../base/images/bg.png") repeat scroll 0 0 #D7D3C6;
 }
 
+masthead {
+    background: url("../../../base/images/bg.png") repeat scroll 0 0 #F0EADE;
+}
+
+.masthead .navigation {
+    margin-right: 0px;
+}
+
+.nav-pills li a {
+    background-color: #7A7A7A;
+    border-radius: 0px;
+}
