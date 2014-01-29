@@ -33,6 +33,12 @@ margin-right: 33px;
     color: #7E9B35;
 }
 
+.masthead .site-search {
+    display: none;
+}
+
+
+
 .nav-pills li a {
     background-color: #7A7A7A;
     border-radius: 0px;
