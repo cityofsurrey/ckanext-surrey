@@ -44,5 +44,10 @@ margin-right: 33px;
     border-radius: 0px;
 }
 
-
+.resource-item .btn-group {
+top: 5px;
+}
+.resource-item .format-label {
+top: 5px;
+}
 
