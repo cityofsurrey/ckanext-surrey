@@ -80,7 +80,7 @@
       {% if pkg_dict.attribute_details %}
         <tr>
           <th scope="row" class="dataset-label">{{ _("Attribute details") }}</th>
-          <td class="dataset-details">{{ pkg_dict.attribute_details}}</td>
+          <td class="dataset-details">{{ h.render_markdown(pkg_dict.attribute_details)}}</td>
         </tr>
       {% endif %}
 
