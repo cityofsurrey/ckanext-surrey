@@ -11,3 +11,38 @@ width: 370px;
 float: left;
 margin-right: 33px;
 }
+
+
+.account-masthead {
+    background: url("../../../base/images/bg.png") repeat scroll 0 0 #D7D3C6;
+}
+
+.masthead {
+    background: url("../../../base/images/bg.png") repeat scroll 0 0 #F0EADE;
+}
+
+.masthead .navigation {
+    margin-right: 0px;
+}
+
+.masthead .navigation .nav-pills li a:hover, .masthead .navigation .nav-pills li.active a {
+    background-color: #7e9b35;
+}
+
+.account-masthead .account ul li a {
+    color: #7E9B35;
+}
+
+.masthead .site-search {
+    display: none;
+}
+
+
+
+.nav-pills li a {
+    background-color: #7A7A7A;
+    border-radius: 0px;
+}
+
+
+

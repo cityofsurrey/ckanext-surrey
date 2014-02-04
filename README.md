@@ -11,7 +11,7 @@ The extension contains the following features:
 - Support custom templates
 - Remove the 'organization' from the facet list
 
-More documentation available in [ckanext/surrey/docs/customization.md](ckanext/surrey/docs/customization.md)
+More documentation available in  [ckanext/surrey/docs/customization.md](ckanext/surrey/docs/customization.md)
 
 ## Prerequisite
 
@@ -48,7 +48,7 @@ Add the extension in the configuration file. `surrey` does most of the work, `su
 ckan.plugins =  ... surrey surreyfacet
 ``` 
 
-Add the custom licence file in the configuration file.
+Add the custom licence file in the configuration file. 
 
 ```
 licenses_group_url = file:///path/to/extension/ckanext-surrey/ckanext/surrey/licences.json
