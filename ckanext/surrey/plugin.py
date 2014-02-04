@@ -14,6 +14,14 @@ def update_frequency():
     frequency_list = (u"Yearly", u"Monthly", u"Weekly", u"Daily", u"Realtime", u"Punctual", u"Variable", u"Never")
     return frequency_list
 
+def get_group_list():
+
+    groups = tk.get_action('group_list')(
+        data_dict={'all_fields': True})    
+
+    return groups
+
+
 class SurreyFacetPlugin(plugins.SingletonPlugin):
 	
     plugins.implements(plugins.IFacets, inherit=True)
@@ -59,7 +67,7 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
     # Tell CKAN what custom template helper functions this plugin provides,
     # see the ITemplateHelpers plugin interface.
     def get_helpers(self):
-        return {'format_date': format_date, 'update_frequency': update_frequency}
+        return {'format_date': format_date, 'update_frequency': update_frequency, 'get_group_list': get_group_list}
 
 
     def is_fallback(self):
