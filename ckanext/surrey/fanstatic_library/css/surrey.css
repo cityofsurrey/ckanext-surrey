@@ -4,12 +4,39 @@ display: none;
 
 .module-content.box {
 padding-bottom: 10px;
+background-color: #333333;
+color: #fff;
 }
 
 .intro-text header {
-width: 370px;
-float: left;
-margin-right: 33px;
+width: 450px;
+float: right;
+margin-right: 15px;
+padding-top: 10px;
+}
+
+.masonry .media-image, .masonry .media-heading {
+display: block;
+margin: auto;
+text-align: center;
+}
+
+.context-info h1.heading {
+display: block;
+margin: auto;
+text-align: center;
+}
+
+aside .context-info img {
+display: block;
+margin: auto;
+text-align: center;
+}
+
+
+.module-content .featured {
+margin-bottom: 10px;
+width: 368px;
 }
 
 
@@ -44,5 +71,91 @@ margin-right: 33px;
     border-radius: 0px;
 }
 
+body {
+background: #005d7a url("../../../base/images/bg.png");
+}
 
 
+.hero {
+    background: url("/images/background-tile.png");
+    background-repeat: no-repeat;
+}
+
+.search-by-cat {
+	padding: 10px 0 0 17px;
+	background-color: #f0eade;
+	margin-top: 0px;
+	-webkit-border-radius: 0 0 3px 3px;
+	-moz-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}
+
+.search-by-cat h3{
+margin-top: 0;
+margin-bottom: 7px;
+font-size: 24px;
+line-height: 40px;
+}
+
+.surrey-media-grid {
+	margin: 0;
+	list-style: none;
+	margin: 0;
+
+	padding-bottom: 15px;
+
+}
+
+.surrey-media-grid:before, .surrey-media-grid:after {
+	display: table;
+	content: "";
+	line-height: 0;
+}
+
+.surrey-media-grid:after {
+	clear: both;
+}
+
+.surrey-media-item {
+	position: relative;
+	float: left;
+	width: 125px;
+	padding: 15px 10px 15px 13px;
+	text-align: center
+}
+
+.surrey-media-item span {
+	display:block;
+	color: #333333;
+}
+
+.homepage .module-search .tags {
+	padding: 5px 10px 10px 10px;
+	background-color: #d7d3c6;
+	-webkit-border-radius: 0 ;
+	-moz-border-radius: 0 ;
+	border-radius: 0;
+}
+
+body {
+	background: #f0eade;
+}
+
+.homepage .module-search .module-content {
+	background-color: #f0eade;
+}
+
+
+
+.homepage .module-search {
+	color: #333333;
+}
+
+
+.site-footer {
+	background: #363636 url("../../../base/images/bg.png");
+}
+
+.attribution ul li {
+	margin-bottom: 5px;
+}

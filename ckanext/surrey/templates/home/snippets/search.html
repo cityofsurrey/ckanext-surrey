@@ -1,10 +1,10 @@
 {% set tags = h.get_facet_items_dict('tags', limit=3) %}
 {% set groups = h.get_group_list() %}
-{% set placeholder = _('eg. Census') %}
+{% set placeholder = _('e.g Business Licenses') %}
 
 <div class="module module-search module-narrow module-shallow box">
   <form class="module-content search-form" method="get" action="{% url_for controller='package', action='search' %}">
-    <h3 class="heading">{{ _("Search Your Data") }}</h3>
+    <h3 class="heading">{{ _("Search for Datasets Data") }}</h3>
     <div class="search-input control-group search-giant">
       <input type="text" class="search" name="q" value="" autocomplete="off" placeholder="{{ placeholder }}" />
       <button type="submit">
@@ -21,10 +21,15 @@
   </div>
   <div class="search-by-cat">
       <h3 class="heading">{{ _("Search By Category") }}</h1>
-      <ul class="media-grid" data-module="media-grid">
+      <ul class="surrey-media-grid">
 
         {% for group in groups %}
-        {% snippet "group/snippets/group_item.html", group=group, position=loop.index %}
+          <li class="surrey-media-item">     
+              <!--h3 class="media-heading">{{ group.display_name }}</h3-->
+              <a href="{{ h.url_for(controller='group', action='read', id=group.name) }}" title="{{ _('{name}').format(name=group.display_name) }}">
+              <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" />
+              <span>{{ _('{name}').format(name=group.display_name) }}</span></a>
+          </li>
         {% endfor %}
       </ul>
   </div>
