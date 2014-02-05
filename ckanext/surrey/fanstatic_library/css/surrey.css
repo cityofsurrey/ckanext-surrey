@@ -156,6 +156,14 @@ body {
 	background: #363636 url("../../../base/images/bg.png");
 }
 
+.resource-item .btn-group {
+	top: 5px;
+}
+
+.resource-item .format-label {
+	top: 5px;
+}
+
 .attribution ul li {
 	margin-bottom: 5px;
 }
