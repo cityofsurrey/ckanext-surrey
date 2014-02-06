@@ -120,8 +120,9 @@ line-height: 40px;
 	position: relative;
 	float: left;
 	width: 125px;
-	padding: 15px 10px 15px 13px;
-	text-align: center
+	padding: 10px 10px 10px 13px;
+	text-align: center;
+	height: 125px;
 }
 
 .surrey-media-item span {

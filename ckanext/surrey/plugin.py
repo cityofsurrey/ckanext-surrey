@@ -36,6 +36,16 @@ class SurreyFacetPlugin(plugins.SingletonPlugin):
                     }
         return default_facet_titles
 
+    def group_facets(self, facets_dict, group_type, package_type):
+
+        default_facet_titles = {
+                    'groups': tk._('Groups'),
+                    'tags': tk._('Tags'),
+                    'res_format': tk._('Formats')
+                    #'license_id': tk._('License'),                    
+                    }
+        return default_facet_titles
+
 class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
     '''An example that shows how to use the ITemplateHelpers plugin interface.
 
