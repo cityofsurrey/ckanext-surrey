@@ -2,8 +2,8 @@
 display: none;
 }
 
-.module-content.box {
-padding-bottom: 10px;
+.module-content.intro-text{
+padding: 20px 25px 15px 25px;
 background-color: #333333;
 color: #fff;
 }
@@ -81,8 +81,9 @@ background: #005d7a url("/base/images/bg.png");
     background-repeat: no-repeat;
 }
 
+
 .search-by-cat {
-	padding: 10px 0 0 17px;
+	padding: 10px 0 10px 17px;
 	background-color: #f0eade;
 	margin-top: 0px;
 	-webkit-border-radius: 0 0 3px 3px;
