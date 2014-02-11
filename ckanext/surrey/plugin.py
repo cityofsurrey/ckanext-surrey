@@ -112,6 +112,11 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
                     tk.get_converter('convert_to_extras')]
                 })
 
+        schema.update({
+                'is_geospatial': [tk.get_validator('ignore_missing'),
+                    tk.get_converter('convert_to_extras')]
+                })
+
         return schema
 
 
@@ -148,6 +153,15 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
             'attribute_details': [tk.get_converter('convert_from_extras'),
                 tk.get_validator('ignore_missing')]
             })
+
+
+        schema.update({
+            'is_geospatial': [tk.get_converter('convert_from_extras'),
+                tk.get_validator('ignore_missing')]
+            })
+
+
+
 
         return schema
 

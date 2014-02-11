@@ -22,6 +22,17 @@
     </div>
   </div>
 
+
+  <div class="control-group">
+    <label class="control-label" for="field-is_geospatial">{{ _("Use Map Preview") }}</label>
+    <div class="controls">
+      <select id="field-is_geospatial" name="is_geospatial">
+          <option value="0" {% if data.is_geospatial == "0" %}selected="selected"{% endif %}>{{ _("No") }}</option>           
+          <option value="1" {% if data.is_geospatial == "1" %}selected="selected"{% endif %}>{{ _("Yes") }}</option>       
+      </select>
+    </div>
+  </div>
+
  {{ super() }}
 
 {% endblock %}

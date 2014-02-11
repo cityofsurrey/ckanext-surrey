@@ -72,7 +72,7 @@ width: 368px;
 }
 
 body {
-background: #005d7a url("../../../base/images/bg.png");
+background: #005d7a url("/base/images/bg.png");
 }
 
 
@@ -154,7 +154,7 @@ body {
 
 
 .site-footer {
-	background: #363636 url("../../../base/images/bg.png");
+	background: #363636 url("/base/images/bg.png");
 }
 
 .resource-item .btn-group {
@@ -167,4 +167,71 @@ body {
 
 .attribution ul li {
 	margin-bottom: 5px;
+}
+
+
+.label[data-format=cad], .label[data-format*=cad] {
+background-color: #5588ff;
+}
+
+.format-label[data-format=cad], .format-label[data-format*=cad] {
+	width: 32px;
+	height: 35px;
+	background-image: url("/images/icon-cad-small.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+}
+
+
+.label[data-format=fgdb], .label[data-format*=fgdb] {
+background-color: #5588ff;
+}
+
+.format-label[data-format=fgdb], .format-label[data-format*=fgdb] {
+	width: 32px;
+	height: 35px;
+	background-image: url("/images/icon-fgdb-small.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+}
+
+
+.label[data-format=kml], .label[data-format*=kml] {
+background-color: #5588ff;
+}
+
+.format-label[data-format=kml], .format-label[data-format*=kml] {
+	width: 32px;
+	height: 35px;
+	background-image: url("/images/icon-kml-small.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+}
+
+
+
+.label[data-format=misc], .label[data-format*=misc] {
+background-color: #5588ff;
+}
+
+.format-label[data-format=misc], .format-label[data-format*=misc] {
+	width: 32px;
+	height: 35px;
+	background-image: url("/images/icon-misc-small.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+}
+
+
+
+.label[data-format=tif], .label[data-format*=tif] {
+background-color: #5588ff;
+}
+
+.format-label[data-format=tif], .format-label[data-format*=tif] {
+	width: 32px;
+	height: 35px;
+	background-image: url("/images/icon-tif-small.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
 }
