@@ -46,6 +46,20 @@ class SurreyFacetPlugin(plugins.SingletonPlugin):
                     }
         return default_facet_titles
 
+class SurreyExtraPagesPlugin(plugins.SingletonPlugin):
+    
+    plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.IConfigurer, inherit=True)
+
+    def update_config(self, config):
+        config['ckan.resource_proxy_enabled'] = True
+
+    def before_map(self, m):
+        m.connect('/suggest',
+                    controller='ckanext.surrey.controller:SuggestController',
+                    action='suggest_form')
+        return m
+
 class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
     '''An example that shows how to use the ITemplateHelpers plugin interface.
 

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.8'
+version = '0.9'
 
 setup(
 	name='ckanext-surrey',
@@ -27,6 +27,7 @@ setup(
         [ckan.plugins]
 	# Add plugins here, eg
 	surrey=ckanext.surrey.plugin:SurreyTemplatePlugin
-        surreyfacet=ckanext.surrey.plugin:SurreyFacetPlugin
+    surreyfacet=ckanext.surrey.plugin:SurreyFacetPlugin
+    surreyextrapages=ckanext.surrey.plugin:SurreyExtraPagesPlugin
 	""",
 )
