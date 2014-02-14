@@ -58,6 +58,7 @@ class SurreyExtraPagesPlugin(plugins.SingletonPlugin):
         m.connect('/suggest',
                     controller='ckanext.surrey.controller:SuggestController',
                     action='suggest_form')
+
         return m
 
 class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
