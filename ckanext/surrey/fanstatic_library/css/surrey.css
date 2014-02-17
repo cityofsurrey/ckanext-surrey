@@ -163,7 +163,7 @@ body {
 }
 
 .resource-item .format-label {
-	top: 5px;
+	top: 13px;
 }
 
 .attribution ul li {
@@ -171,68 +171,54 @@ body {
 }
 
 
-.label[data-format=cad], .label[data-format*=cad] {
-background-color: #5588ff;
-}
+.label[data-format=cad], .label[data-format*=cad] {background-color: #0071bc;}
+.label[data-format=fgdb], .label[data-format*=fgdb] {background-color: #cc9e68;}
+.label[data-format=kml], .label[data-format*=kml], .label[data-format=kmz], .label[data-format*=kmz] {background-color: #162e6f;}
+.label[data-format=misc], .label[data-format*=misc] {background-color: #6600cc;}
+.label[data-format=tif], .label[data-format*=tif] {background-color: #bf9900;}
 
-.format-label[data-format=cad], .format-label[data-format*=cad] {
-	width: 32px;
-	height: 35px;
-	background-image: url("/images/icon-cad-small.png");
-	background-position: 0px 0px;
+
+
+.format-label {
+	background-image: url("/images/sprite.png");
 	background-repeat: no-repeat;
+
 }
 
-
-.label[data-format=fgdb], .label[data-format*=fgdb] {
-background-color: #5588ff;
-}
-
-.format-label[data-format=fgdb], .format-label[data-format*=fgdb] {
-	width: 32px;
-	height: 35px;
-	background-image: url("/images/icon-fgdb-small.png");
-	background-position: 0px 0px;
-	background-repeat: no-repeat;
-}
-
-
-.label[data-format=kml], .label[data-format*=kml] {
-background-color: #5588ff;
-}
-
-.format-label[data-format=kml], .format-label[data-format*=kml] {
-	width: 32px;
-	height: 35px;
-	background-image: url("/images/icon-kml-small.png");
-	background-position: 0px 0px;
-	background-repeat: no-repeat;
-}
+.format-label { background-position: -300px 0; width: 32px; height: 32px; }
+.format-label[data-format=api], .format-label[data-format*=api] { background-position: 0 0; width: 32px; height: 32px; } 
+.format-label[data-format=cad], .format-label[data-format*=cad]{ background-position: -100px 0; width: 32px; height: 32px; } 
+.format-label[data-format=csv], .format-label[data-format*=csv] { background-position: -200px 0; width: 32px; height: 32px; } 
+.format-label[data-format=fgdb], .format-label[data-format*=fgdb]{ background-position: -400px 0; width: 32px; height: 32px; } 
+.format-label[data-format=html], .format-label[data-format*=html] { background-position: -500px 0; width: 32px; height: 32px; } 
+.format-label[data-format=json], .format-label[data-format*=json]{ background-position: -600px 0; width: 32px; height: 32px; } 
+.format-label[data-format=kml], .format-label[data-format*=kml], .format-label[data-format=kmz], .format-label[data-format*=kmz]{ background-position: -700px 0; width: 32px; height: 32px; } 
+.format-label[data-format=misc], .format-label[data-format*=misc] { background-position: -800px 0; width: 32px; height: 32px; } 
+.format-label[data-format=pdf], .format-label[data-format*=pdf] { background-position: -900px 0; width: 32px; height: 32px; } 
+.format-label[data-format=rdf], .format-label[data-format*=rdf]{ background-position: -1000px 0; width: 32px; height: 32px; } 
+.format-label[data-format=tif], .format-label[data-format*=tif] { background-position: -1100px 0; width: 32px; height: 32px; } 
+.format-label[data-format=txt], .format-label[data-format*=txt]{ background-position: -1200px 0; width: 32px; height: 32px; } 
+.format-label[data-format=xls], .format-label[data-format*=xls]{ background-position: -1300px 0; width: 32px; height: 32px; } 
+.format-label[data-format=xml], .format-label[data-format*=xml]{ background-position: -1400px 0; width: 32px; height: 32px; } 
+.format-label[data-format=zip], .format-label[data-format*=zip]{ background-position: -1500px 0; width: 32px; height: 32px; } 
 
 
-
-.label[data-format=misc], .label[data-format*=misc] {
-background-color: #5588ff;
-}
-
-.format-label[data-format=misc], .format-label[data-format*=misc] {
-	width: 32px;
-	height: 35px;
-	background-image: url("/images/icon-misc-small.png");
-	background-position: 0px 0px;
-	background-repeat: no-repeat;
-}
+/*.sprite-api{ background-position: -34px 0; width: 64px; height: 64px; } 
+.sprite-cad{ background-position: -134px 0; width: 64px; height: 64px; } 
+.sprite-csv{ background-position: -234px 0; width: 64px; height: 64px; } 
+.sprite-data{ background-position: -334px 0; width: 64px; height: 64px; } 
+.sprite-fgdb{ background-position: -434px 0; width: 64px; height: 64px; } 
+.sprite-html{ background-position: -534px 0; width: 64px; height: 64px; } 
+.sprite-json{ background-position: -634px 0; width: 64px; height: 64px; } 
+.sprite-kml{ background-position: -734px 0; width: 64px; height: 64px; } 
+.sprite-misc{ background-position: -834px 0; width: 64px; height: 64px; } 
+.sprite-pdf{ background-position: -934px 0; width: 64px; height: 64px; } 
+.sprite-rdf{ background-position: -1034px 0; width: 64px; height: 64px; } 
+.spring-tif { background-position: -1134px 0; width: 64px; height: 64px; } 
+.sprite-txt{ background-position: -1234px 0; width: 64px; height: 64px; } 
+.sprite-xls{ background-position: -1334px 0; width: 64px; height: 64px; } 
+.sprite-xml{ background-position: -1434px 0; width: 64px; height: 64px; } 
+.sprite-zip{ background-position: -1534px 0; width: 64px; height: 64px; } */
 
 
 
-.label[data-format=tif], .label[data-format*=tif] {
-background-color: #5588ff;
-}
-
-.format-label[data-format=tif], .format-label[data-format*=tif] {
-	width: 32px;
-	height: 35px;
-	background-image: url("/images/icon-tif-small.png");
-	background-position: 0px 0px;
-	background-repeat: no-repeat;
-}

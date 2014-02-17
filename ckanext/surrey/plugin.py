@@ -55,9 +55,18 @@ class SurreyExtraPagesPlugin(plugins.SingletonPlugin):
         config['ckan.resource_proxy_enabled'] = True
 
     def before_map(self, m):
-        m.connect('/suggest',
+        m.connect('suggest' ,'/suggest',
                     controller='ckanext.surrey.controller:SuggestController',
                     action='suggest_form')
+
+        m.connect('contact', '/contact',
+                    controller='ckanext.surrey.controller:ContactController',
+                    action='contact_form')
+
+
+        m.connect('follow', '/follow',
+                    controller='ckanext.surrey.controller:FollowController',
+                    action='follow')
 
         return m
 

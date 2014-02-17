@@ -2,7 +2,7 @@
 
 {% block footer_links %}
               <li><a href="{{ h.url_for(controller='home', action='about') }}">{{ _('About this Catalogue') }}</a></li>
-              <li><a href="">Suggest a dataset</a></li>
+              <li><a href="{{ h.url_for(controller='ckanext.surrey.controller:SuggestController', action='suggest_form') }}">Suggest a dataset</a></li>
               <li><a href="">FAQ</a></li>
 {% endblock %}
 
@@ -18,7 +18,7 @@
                           {% set api_url = 'http://docs.ckan.org/en/{0}/api.html'.format(g.ckan_doc_version) %}
               <li><a href="/api/v3/">City of Surrey Open Data API</a> (<a href="{{ api_url }}">Docs</a>)</li>
               <li><a href="">Glossary of Terms</a></li>
-              <li><a href="">Subscribe</a></li>
+              <li><a href="{{ h.url_for(controller='ckanext.surrey.controller:FollowController', action='follow') }}">Subscribe</a></li>
           </ul>
 
 {% endblock %}
