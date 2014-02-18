@@ -7,11 +7,31 @@
       <h1 class="page-heading">Subscribe</h1>
 
       <h2>Follow us on Twitter</h2>
-      <p>Follow <a href="https://twitter.com/surreyopendata">@SurreyOpenData</a></p>
+      <p>Follow <b><a href="https://twitter.com/surreyopendata">@SurreyOpenData</a></b></p>
 
+      <h2>Follow us with the news feed</h2>
+      <p>The open data portal provides an atom feed of the datasets hosted.</p>
+      <p>You can use the following url to subscribe to this feed: <b><a href="{{ h.url('/', locale='default', qualified=true) }}feeds/dataset.atom">{{ h.url('/', locale='default', qualified=true) }}feeds/dataset.atom</a></b></p>
 
       <h2>Subscribe to email notification</h2>
-      <p>You can receive automated notification when new activity occurs. For this, you can create an account, activitate the email notifications and then either follow specific categories or dataset.</p>
+      <p>You can receive automated notification when new activity occurs. You have to three simple steps:</p>
+      <ol>
+        <li>Create an {% link_for _('account'), controller='user', action='register', class_='sub' %}.</li>
+        <li>Activate the email notification in your 
+{% if c.userobj %}
+<a href="{{ h.url_for(controller='user', action='edit', id=c.userobj.name) }}">user settings</a>.
+{% else %}
+user settings.
+{% endif %}
+        </li>
+        <li>For each item you want to follow (dataset, category, tag), click on the "follow" button.</li>
+      </ol>
+
+<h3>Activate email notifications</h3>
+<img class="emailnotif" alt="Register user" src="/images/email_notif.png"/>
+
+<h3>Follow an item</h3>
+<img class="emailnotif" alt="Follow button" src="/images/follow_button.png"/>
 
     </div>
   </article>

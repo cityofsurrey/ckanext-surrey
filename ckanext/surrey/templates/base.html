@@ -3,4 +3,5 @@
 {% block styles %}
   {{ super() }}
   {% resource 'ckanext-surrey/css/surrey.css' %}
+  <link type="application/atom+xml" rel="alternate" href="{{ h.url('/', locale='default', qualified=true) }}feeds/dataset.atom"/>
 {% endblock %}

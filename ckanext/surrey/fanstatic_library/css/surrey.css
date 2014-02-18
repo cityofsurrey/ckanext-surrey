@@ -221,4 +221,7 @@ body {
 .sprite-zip{ background-position: -1534px 0; width: 64px; height: 64px; } */
 
 
-
+img.emailnotif {
+   border: 1px solid #888;
+   margin: 10px auto 20px auto;
+}
