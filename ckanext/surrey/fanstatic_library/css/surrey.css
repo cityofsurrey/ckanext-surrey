@@ -52,8 +52,15 @@ width: 368px;
     margin-right: 0px;
 }
 
-.masthead .navigation .nav-pills li a:hover, .masthead .navigation .nav-pills li.active a {
+.masthead .navigation .nav-pills li a:hover, .masthead .navigation .nav-pills li.active a, a.tag:hover, a.tag:active {
     background-color: #7e9b35;
+}
+
+a.tag:hover, a.tag:active {
+  border: 1px solid #7e9b35;
+  -webkit-box-shadow: inset 0 1px 0 #7e9b35;
+  -moz-box-shadow: inset 0 1px 0 #7e9b35;
+  box-shadow: inset 0 1px 0 #7e9b35;
 }
 
 .account-masthead .account ul li a {

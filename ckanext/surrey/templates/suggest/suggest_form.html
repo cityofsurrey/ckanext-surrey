@@ -13,6 +13,10 @@
 
     {{ form.markdown('suggestion', label=_('Your Request'), id='field-suggestion', value=data.suggestion, error=errors.suggestion, placeholder=_('What data are you looking for and why?'), is_required=true) }}
 
+  {% if g.recaptcha_publickey %}
+    {% snippet "user/snippets/recaptcha.html", public_key=g.recaptcha_publickey %}
+  {% endif %}
+
   </fieldset>
 
   <div class="form-actions">

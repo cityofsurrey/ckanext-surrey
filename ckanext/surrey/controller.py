@@ -6,11 +6,13 @@ import requests
 import ckan.logic as logic
 import ckan.lib.base as base
 from ckan.common import _, request, c
+import ckan.lib.helpers as h
 import ckan.logic as logic
 import ckan.logic.schema as schema
 import ckan.lib.navl.dictization_functions as dictization_functions
 import ckan.lib.mailer as mailer
 from pylons import config
+import ckan.lib.captcha as captcha
 
 DataError = dictization_functions.DataError
 unflatten = dictization_functions.unflatten
@@ -56,10 +58,17 @@ class SuggestController(base.BaseController):
             context['message'] = data_dict.get('log_message', '')
 
             c.form = data_dict['name']
+            captcha.check_recaptcha(request)
 
             #return base.render('suggest/form.html')
         except logic.NotAuthorized:
             base.abort(401, _('Not authorized to see this page'))
+
+        except captcha.CaptchaError:
+            error_msg = _(u'Bad Captcha. Please try again.')
+            h.flash_error(error_msg)
+            return self.suggest_form(data_dict) 
+
 
         errors = {}
         error_summary = {}
@@ -150,10 +159,14 @@ class ContactController(base.BaseController):
             context['message'] = data_dict.get('log_message', '')
 
             c.form = data_dict['name']
-
+            captcha.check_recaptcha(request)
             #return base.render('suggest/form.html')
         except logic.NotAuthorized:
             base.abort(401, _('Not authorized to see this page'))
+        except captcha.CaptchaError:
+            error_msg = _(u'Bad Captcha. Please try again.')
+            h.flash_error(error_msg)
+            return self.contact_form(data_dict)
 
         errors = {}
         error_summary = {}
