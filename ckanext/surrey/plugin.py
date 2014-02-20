@@ -29,7 +29,7 @@ class SurreyFacetPlugin(plugins.SingletonPlugin):
     def dataset_facets(self, facets_dict, package_type):
 
         default_facet_titles = {
-                    'groups': tk._('Groups'),
+                    'groups': tk._('Categories'),
                     'tags': tk._('Tags'),
                     'res_format': tk._('Formats')
                     #'license_id': tk._('License'),                    
@@ -39,7 +39,7 @@ class SurreyFacetPlugin(plugins.SingletonPlugin):
     def group_facets(self, facets_dict, group_type, package_type):
 
         default_facet_titles = {
-                    'groups': tk._('Groups'),
+                    'groups': tk._('Categories'),
                     'tags': tk._('Tags'),
                     'res_format': tk._('Formats')
                     #'license_id': tk._('License'),                    

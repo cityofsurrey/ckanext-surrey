@@ -1,0 +1,10 @@
+{% ckan_extends %}
+
+{% block secondary_content %}
+  <section class="module module-narrow module-shallow">
+    <h2 class="module-heading">{{ _('Why Sign Up?') }}</h2>
+    <div class="module-content">
+      <p>By registering for a free account, you can <a href="{{ h.url_for(controller='ckanext.surrey.controller:FollowController', action='follow') }}">subscribe</a> to automated notifications when new activity occurs.</p>
+    </div>
+  </section>
+{% endblock %}
