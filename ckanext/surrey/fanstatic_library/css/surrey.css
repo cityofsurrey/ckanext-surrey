@@ -181,6 +181,7 @@ body {
 	margin-bottom: 5px;
 }
 
+.label {text-transform: uppercase;}
 
 .label[data-format=cad], .label[data-format*=cad] {background-color: #0071bc;}
 .label[data-format=fgdb], .label[data-format*=fgdb] {background-color: #cc9e68;}
