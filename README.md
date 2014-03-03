@@ -61,7 +61,7 @@ Some cron jobs have to be set up in order to have the extension working as expec
 In order to update the recent visits, the tracker and the index has to be rebuilt. The following command will do this using `crontab -e` (make sure that the path to `paster` and the .ini file correspond to your installation):
 ```
 @hourly /usr/lib/ckan/default/bin/paster --plugin=ckan tracking update -c /etc/ckan/default/production.ini > /dev/null
-hourly /usr/lib/ckan/default/bin/paster --plugin=ckan search-index rebuild -r -c /etc/ckan/default/production.ini > /dev/null
+@hourly /usr/lib/ckan/default/bin/paster --plugin=ckan search-index rebuild -r -c /etc/ckan/default/production.ini > /dev/null
 ```
 
 In order to receive mail notification (either for the admin and for the users who are registering) add the following comming in the cron jobs:
