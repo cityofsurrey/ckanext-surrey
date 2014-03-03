@@ -260,4 +260,10 @@ The licence file is an array of licence items as defined by [opendefinition](htt
     }
 ``` 
 
+## Custom pages
 
+The ckan-page extension allows to create static files with not interaction like the FAQ page. But in order to support dynamic feature like forms, one need to integrate the new pages to the existing page management system implemented by CKAN. This can be done with the iRoutes plugin.
+
+In the surrey extension, the pages follow (that explain how to create an account), suggest (to suggest a new dataset) and contact are managed using this way of working. 
+
+In `plugin.py`, the declaration of these new pages in managed by class `SurreyExtraPagesPlugin`. All the code to support the new pages is in `controller.py` and the templates are in the corresponding template directories.
