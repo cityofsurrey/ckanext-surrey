@@ -58,7 +58,7 @@ licenses_group_url = file:///path/to/extension/ckanext-surrey/ckanext/surrey/lic
 
 Some cron jobs have to be set up in order to have the extension working as expected.
 
-In order to update the recent visits, the tracker and the index has to be rebuilt. The following command will do this using `cron -e` (make sure that the path to `paster` and the .ini file correspond to your installation):
+In order to update the recent visits, the tracker and the index has to be rebuilt. The following command will do this using `crontab -e` (make sure that the path to `paster` and the .ini file correspond to your installation):
 ```
 @hourly /usr/lib/ckan/default/bin/paster --plugin=ckan tracking update -c /etc/ckan/default/production.ini > /dev/null
 hourly /usr/lib/ckan/default/bin/paster --plugin=ckan search-index rebuild -r -c /etc/ckan/default/production.ini > /dev/null

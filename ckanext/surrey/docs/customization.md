@@ -267,3 +267,58 @@ The ckan-page extension allows to create static files with not interaction like 
 In the surrey extension, the pages follow (that explain how to create an account), suggest (to suggest a new dataset) and contact are managed using this way of working. 
 
 In `plugin.py`, the declaration of these new pages in managed by class `SurreyExtraPagesPlugin`. All the code to support the new pages is in `controller.py` and the templates are in the corresponding template directories.
+
+
+## Configuration to check
+
+Each instance has its own configuration file (.ini). When setting up a new instance, the following items should be filled (on top of those required in the regular installation)
+
+site_url (some links rely on this value)
+```
+ckan.site_url = http://....
+```
+
+Authorization parameters should be set to the following to allow any user to create an account but without any right
+
+```
+ckan.auth.anon_create_dataset = false
+ckan.auth.create_unowned_dataset = false
+ckan.auth.create_dataset_if_not_in_organization = false
+ckan.auth.user_create_groups = false
+ckan.auth.user_create_organizations = false
+ckan.auth.user_delete_groups = false
+ckan.auth.user_delete_organizations = false
+ckan.auth.create_user_via_api = false
+ckan.auth.create_user_via_web = true
+ckan.auth.roles_that_cascade_to_sub_groups = admin
+```
+
+The following items controls some public items of the site:
+```
+ckan.site_title = my title
+ckan.site_logo = /base/images/ckan-logo.png
+ckan.site_description = This is a description
+ckan.favicon = /images/surrey.ico
+```
+
+The Atom feeds are published in the meta data, so the feed parameters should be filled:
+```
+ckan.feeds.authority_name = City of Surrey
+ckan.feeds.date = 2014-03-01
+ckan.feeds.author_name = City of Surrey
+ckan.feeds.author_link = http://surrey.ca/
+```
+
+In order to upload large files, it could be useful to change the max size parameter (by default set to 10MB. Note that the web server -apache2, nginx, etc.- might also have its own limitation)
+```
+ckan.max_resource_size = 200
+```
+
+Enable email notifications and setup the email configuration
+```
+ckan.activity_streams_email_notifications = true
+email_to = test@test.ca
+error_email_from = test@test.ca
+smtp.server = smtp.test.ca
+smtp.mail_from = ckan@test.ca
+```
