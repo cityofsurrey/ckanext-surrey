@@ -16,14 +16,28 @@ More documentation available in  [ckanext/surrey/docs/customization.md](ckanext/
 
 ## Prerequisite
 
-This extension needs the stats extension to be activated with the tracking options
+This extension needs the stats extension to be activated with the tracking options. Some links (in the footer), also need the ckanext-page extension. So install [ckanext-page](https://github.com/ckan/ckanext-pages) 
 
 ```
-ckan.plugins =  ... stats ...
+pip install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages
+```
+
+Then configure the plugins in the .ini file: 
+
+```
+ckan.plugins =  ... stats pages...
 ckan.tracking_enabled = true 
 ```
 
-In order to refresh the most popular dataset values, make sure to set up the cron jobs (see below).
+The template need the follow pages to be created:
+
+- faq
+- glossary
+- open-government-licence
+- city-of-surrey-open-data-api
+
+
+In order to refresh the most popular dataset values on the landing page, make sure to set up the cron jobs (see below).
 
 The extension has been developed and tested to run with CKAN 2.2.
 
@@ -39,8 +53,14 @@ Activate your pyenv and go to the CKAN root, for example:
 Install the extension from GitHub:
 
 ```
-pip install -e git+git://github.com/opennorth/ckanext-surrey.git#egg=ckanext-surrey
+pip install -e git+git://github.com/CityofSurrey/ckanext-surrey.git#egg=ckanext-surrey
 ```
+
+To access a specific release, for example release-1.0:
+```
+pip install -e git+git://github.com/CityofSurrey/ckanext-surrey.git@release-1.0#egg=ckanext-surrey
+```
+
 
 Add the extension in the configuration file. `surrey` does most of the work, `surreyfacet` mainly removes the organization from the facet menu
 ```
