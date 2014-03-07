@@ -87,7 +87,7 @@ background: #005d7a url("/base/images/bg.png");
 }
 
 
-.hero {
+.hero , body>[role=main] {
     background: url("/images/background-tile.png");
     background-repeat: no-repeat;
 }
