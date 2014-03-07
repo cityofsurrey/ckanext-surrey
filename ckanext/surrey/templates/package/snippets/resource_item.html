@@ -1,6 +1,9 @@
 {% ckan_extends %}
 
-{{ pkg_dict }}
+  {% block resource_item_title %}
+    <span class="heading">{{ h.resource_display_name(res) | truncate(50) }}</span><span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
+    {{ h.popular('views', res.tracking_summary.total, min=10) }}
+  {% endblock %}
 
       {% block resource_item_explore_links %}
       <li>
