@@ -322,3 +322,11 @@ error_email_from = test@test.ca
 smtp.server = smtp.test.ca
 smtp.mail_from = ckan@test.ca
 ```
+
+To disable preview for some formats, like json, one has to remove the format from ckan.preview.loadable and instruct the textpreview plugin not to treat this format (see http://docs.ckan.org/en/847-new-theming-docs/data-viewer.html)
+
+```
+ckan.preview.loadable = html htm rdf+xml owl+xml xml n3 n-triples turtle plain atom csv tsv rss txt
+ckan.preview.json_formats = -
+ckan.preview.jsonp_formats = -
+```
