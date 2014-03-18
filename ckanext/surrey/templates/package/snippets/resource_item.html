@@ -6,15 +6,15 @@
   {% endblock %}
 
       {% block resource_item_explore_links %}
+      {% if res.can_be_previewed %}
       <li>
         <a href="{{ url }}">
-          {% if res.can_be_previewed %}
             <i class="icon-bar-chart"></i>
             {{ _('Preview') }}
-          {% endif %}
         </a>
       </li>
-      {% if pkg.is_geospatial %} 
+      {% endif %}
+      {% if pkg.is_geospatial == "1" %} 
       <li>
         <a href="/preview.html?layername={{ pkg.name }}">
             <i class="icon-download"></i>
@@ -24,13 +24,8 @@
       {% endif %}   
       <li>
         <a href="{{ res.url }}" class="resource-url-analytics" target="_blank">
-          {% if res.can_be_previewed %}
             <i class="icon-download"></i>
             {{ _('Download') }}
-          {% else %}
-            <i class="icon-external-link"></i>
-            {{ _('Go to resource') }}
-          {% endif %}
         </a>
       </li>
       {% if can_edit %}
