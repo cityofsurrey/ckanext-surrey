@@ -1,10 +1,6 @@
 {% ckan_extends %}
 
-  {% block resource_item_title %}
-    <span class="heading">{{ h.resource_display_name(res) | truncate(50) }}</span><span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
-    {{ h.popular('views', res.tracking_summary.total, min=10) }}
-  {% endblock %}
-
+{% set geo_formats = [ 'csv', 'json', 'geojson', 'kml', 'kmz', 'shp', 'dwg', 'fgdb'] %}
       {% block resource_item_explore_links %}
       {% if res.can_be_previewed %}
       <li>
@@ -14,9 +10,9 @@
         </a>
       </li>
       {% endif %}
-      {% if pkg.is_geospatial == "1" %} 
+      {% if pkg.is_geospatial == "1" and res.format.lower() in geo_formats %} 
       <li>
-        <a href="/preview.html?layername={{ pkg.name }}">
+        <a href="/preview.html?layername={{ pkg.name }}&dataformat={{ res.format.lower() }}">
             <i class="icon-download"></i>
             {{ _('Download via Map') }}
         </a>

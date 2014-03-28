@@ -4,39 +4,4 @@
     {% block meta %}
       {{ super() }}
       <link href="feeds/dataset.atom" rel="alternate" title="Carnets de vie" type="application/atom+xml">
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-      <script>
-         function format_date(str) {
-           var myDate=new Date();
-           console.log(str);
-           myDate.setFullYear(parseInt(str.substring(0,4)), parseInt(str.substring(5,7))-1, parseInt(str.substring(8,10)));
-           return myDate.toString().substring(0,15);
-         }
-
-         $( document ).ready(function() {
-           $.get( "api/3/action/package_search?sort=metadata_modified%20desc&rows=5", function( data ) {
-             var results = data.result.results; 
-             var output = "";
-             for (var i = 0; i < results.length; i++) {
-               output += '<li class="dataset-item module-content"><div class="dataset-content"><h3 class="dataset-heading">';
-               output += '<a href="dataset/'+ results[i].name +'">' + results[i].title+'</a></h3>';
-               output += '<div>Last updated on '+  format_date(results[i].metadata_created)  +' </div></div></li>';
-
-             }
-             $( "#recent-list" ).html(output);
-           });
-
-           $.get( "api/3/action/package_search?sort=views_recent+desc&rows=5", function( data ) {
-             var results = data.result.results; 
-             var output = "";
-             for (var i = 0; i < results.length; i++) {
-               output += '<li class="dataset-item module-content"><div class="dataset-content"><h3 class="dataset-heading">';
-               output += '<a href="dataset/'+ results[i].name +'">' + results[i].title+'</a></h3>';
-               output += '<div>' +  results[i].tracking_summary.recent +' recent views</div></div></li>';
-             }
-             $( "#popular-list" ).html(output);
-           });
-
-         });
-      </script>
     {% endblock %}
