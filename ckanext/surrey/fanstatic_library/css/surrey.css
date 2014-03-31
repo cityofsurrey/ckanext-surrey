@@ -169,17 +169,22 @@ body {
 	background: #363636 url("/base/images/bg.png");
 }
 
-/*.resource-item .btn-group {
-	top: 5px;
-}*/
-
 .resource-item {
-  min-height: 48px;
+margin-top: 12px;
+margin-bottom: 12px;
+min-height: 40px;
+}
+
+.resource-item .heading {
+color: #000000;
+font-size: 14px;
+font-weight: bold;
+margin-top: -8px;
+display: block;
 }
 
 .resource-item .format-label {
   top: 5px;
-
 
 }
 
