@@ -12,7 +12,7 @@
 {{ form.input('attribute_details', label=_('Attribute details'), id='field-attribute_details', placeholder=_('...'), value=data.attribute_details, error=errors.attribute_details, classes=['control-medium']) }}
 
   <div class="control-group">
-    <label class="control-label" for="field-update_frequency">{{ _("Update Frequency") }}</label>
+    <label class="control-label" for="field-update_frequency">{{ _("Data Update Frequency") }}</label>
     <div class="controls">
       <select id="field-update_frequency" name="update_frequency">
         {% for update_frequency in h.update_frequency()  %}

@@ -12,7 +12,7 @@
     <tbody>
       {% if pkg_dict.metadata_created %}
         <tr>
-          <th scope="row" class="dataset-label">{{ _('Creation Date') }}</th>
+          <th scope="row" class="dataset-label">{{ _('First Published Date') }}</th>
           <td class="dataset-details" property="dc:issued">{{ h.format_date(pkg_dict.metadata_created) }}</td>
         </tr>
       {% endif %}
@@ -57,7 +57,7 @@
 
       {% if pkg_dict.update_frequency %}
         <tr>
-          <th scope="row" class="dataset-label">{{ _("Update Frequency") }}</th>
+          <th scope="row" class="dataset-label">{{ _("Data Update Frequency") }}</th>
           <td class="dataset-details">{{ pkg_dict.update_frequency}}</td>
         </tr>
       {% endif %}
