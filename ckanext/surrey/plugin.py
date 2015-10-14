@@ -6,9 +6,9 @@ import time
 def format_date(date):
     '''Take timestamp and return a formatted date Month, day Year.'''
     mytime = time.strptime(date[:10], "%Y-%m-%d")
-    output = time.strftime("%B %d, %Y", mytime) 
+    output = time.strftime("%B %d, %Y", mytime)
     # Just return some example text.
-    return output 
+    return output
 
 def update_frequency():
     frequency_list = (u"Yearly", u"Monthly", u"Weekly", u"Daily", u"Realtime", u"Punctual", u"Variable", u"Never")
@@ -17,13 +17,22 @@ def update_frequency():
 def get_group_list():
 
     groups = tk.get_action('group_list')(
-        data_dict={'all_fields': True})    
+        data_dict={'all_fields': True})
 
     return groups
 
+def get_summary_list(num_packages):
+
+    list_without_summary = tk.get_action('package_search')(data_dict={'rows':num_packages,'sort':'metadata_modified desc'})['results']
+    list_with_summary = []
+    for package in list_without_summary:
+        list_with_summary.append(tk.get_action('package_show')(
+                                 data_dict={'id':package['name'],'include_tracking':True})
+                                 )
+    return list_with_summary
 
 class SurreyFacetPlugin(plugins.SingletonPlugin):
-	
+
     plugins.implements(plugins.IFacets, inherit=True)
 
     def dataset_facets(self, facets_dict, package_type):
@@ -32,7 +41,7 @@ class SurreyFacetPlugin(plugins.SingletonPlugin):
                     'groups': tk._('Categories'),
                     'tags': tk._('Tags'),
                     'res_format': tk._('Formats')
-                    #'license_id': tk._('License'),                    
+                    #'license_id': tk._('License'),
                     }
         return default_facet_titles
 
@@ -42,12 +51,12 @@ class SurreyFacetPlugin(plugins.SingletonPlugin):
                     'groups': tk._('Categories'),
                     'tags': tk._('Tags'),
                     'res_format': tk._('Formats')
-                    #'license_id': tk._('License'),                    
+                    #'license_id': tk._('License'),
                     }
         return default_facet_titles
 
 class SurreyExtraPagesPlugin(plugins.SingletonPlugin):
-    
+
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
 
@@ -101,7 +110,8 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
     # Tell CKAN what custom template helper functions this plugin provides,
     # see the ITemplateHelpers plugin interface.
     def get_helpers(self):
-        return {'format_date': format_date, 'update_frequency': update_frequency, 'get_group_list': get_group_list}
+        return {'format_date': format_date, 'update_frequency': update_frequency,
+                'get_group_list': get_group_list,'get_summary_list':get_summary_list}
 
 
     def is_fallback(self):
