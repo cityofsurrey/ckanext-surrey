@@ -1,5 +1,19 @@
 {% ckan_extends %}
 
+
+{% block primary_content %}
+  <article class="module">
+    <div class="module-content">
+      <h1 class="page-heading">
+        {% block page_heading %}{{ _('Register for an Account') }}{% endblock %}
+      </h1>
+
+      <p style="padding-bottom: 20px">Personal Information is collected for the purposes of accessing data sets, suggesting data sets, and/or subscribing to email updates . The City of Surrey is collecting this information under s.26 (c) of the Freedom of Information and Protection of Privacy Act. For questions regarding the collection of personal information, please contact Sean Simpson, GIS Manager at <a href="mailto:TSimpson@surrey.ca">STSimpson@surrey.ca</a> or at 604-591-4730.</p>
+      {{ c.form | safe }}
+    </div>
+  </article>
+{% endblock %}
+
 {% block secondary_content %}
   <section class="module module-narrow module-shallow">
     <h2 class="module-heading">{{ _('Why Sign Up?') }}</h2>
