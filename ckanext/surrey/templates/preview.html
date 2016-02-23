@@ -157,6 +157,10 @@
         {% resource 'base/tracking.js' %}
     {% endif %}
   {{ super() }}
+{%- endblock -%}
+
+{%- block body_extras -%}
+  {{ super() }}
   
   <script src="http://js.arcgis.com/3.15/"></script>
   
