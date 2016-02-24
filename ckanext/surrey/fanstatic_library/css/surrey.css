@@ -26,6 +26,13 @@ margin-right: 15px;
 display: block;
 }
 
+@media (max-width:600px){
+    .intro-text header {
+        float: none;
+        width: 80%;
+    }
+}
+
 .intro-text header a {
 text-decoration: underline;
 color: #fff;
