@@ -10,14 +10,14 @@
   {% endblock %}
 
   {% block resource_item_explore_links %}
+      {% if res.has_views %}
       <li>
         <a href="{{ url }}">
-          {% if res.has_views %}
             <i class="icon-bar-chart"></i>
             {{ _('Preview') }}
-          {% endif %}
         </a>
       </li>
+      {% endif %}
       {% if res.url and h.is_url(res.url) %}
       <li>
         <a href="{{ res.url }}" class="resource-url-analytics" target="_blank">
