@@ -9,14 +9,38 @@
   </span>
   {% endblock %}
 
-      {% block resource_item_explore_links %}
-        {{ super() }}
-        {% if pkg.is_geospatial == "1" and res.format.lower() in geo_formats %}
-        <li>
-          <a href="/preview.html?layername={{ pkg.name }}&dataformat={{ res.format.lower() }}">
-              <i class="icon-download"></i>
-              {{ _('Download via Map') }}
-          </a>
-        </li>
-        {% endif %}
-      {% endblock %}
+  {% block resource_item_explore_links %}
+      {% if res.has_views %}
+      <li>
+        <a href="{{ url }}">
+            <i class="icon-bar-chart"></i>
+            {{ _('Preview') }}
+        </a>
+      </li>
+      {% endif %}
+      {% if res.url and h.is_url(res.url) %}
+      <li>
+        <a href="{{ res.url }}" class="resource-url-analytics" target="_blank">
+            <i class="icon-download"></i>
+            {{ _('Download') }}
+        </a>
+      </li>
+      {% endif %}
+      {% if can_edit %}
+      <li>
+        <a href="{{ h.url_for(controller='package', action='resource_edit', id=pkg.name, resource_id=res.id) }}">
+          <i class="icon-edit"></i>
+          {{ _('Edit') }}
+        </a>
+      </li>
+      {% endif %}
+      
+    {% if pkg.is_geospatial == "1" and res.format.lower() in geo_formats %}
+    <li>
+      <a href="/preview.html?layername={{ pkg.name }}&dataformat={{ res.format.lower() }}">
+          <i class="icon-download"></i>
+          {{ _('Download via Map') }}
+      </a>
+    </li>
+    {% endif %}
+  {% endblock %}
