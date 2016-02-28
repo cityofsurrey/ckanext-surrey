@@ -31,6 +31,10 @@ display: block;
         float: none;
         width: 80%;
     }
+    
+    .media-overlay.featured{
+        width: 100%;
+    }
 }
 
 .intro-text header a {
@@ -72,7 +76,7 @@ text-align: center;
 
 
 .module-content .featured {
-width: 368px;
+    width: 100%;
 }
 
 
