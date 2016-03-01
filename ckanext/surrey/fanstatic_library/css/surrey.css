@@ -40,8 +40,16 @@ display: block;
         display:block;
     }
     
+    .resource-item .heading{
+        width:60%;
+    }
+    
     .toolbar .breadcrumb a{
         color: #505050;
+    }
+    
+    i.icon-share-alt{
+        display:none;
     }
 }
 
