@@ -26,7 +26,7 @@ margin-right: 15px;
 display: block;
 }
 
-@media (max-width:600px){
+@media (max-width:768px){
     .intro-text header {
         float: none;
         width: 80%;
@@ -34,6 +34,14 @@ display: block;
     
     .media-overlay.featured{
         width: 100%;
+    }
+    
+    .resource-item div.dropdown.btn-group{
+        display:block;
+    }
+    
+    .toolbar .breadcrumb a{
+        color: #505050;
     }
 }
 
@@ -223,6 +231,8 @@ display: block;
   top: 5px;
 
 }
+
+
 
 .attribution ul li {
 	margin-bottom: 5px;
