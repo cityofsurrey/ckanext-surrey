@@ -309,6 +309,10 @@ img.emailnotif {
    margin: 10px auto 20px auto;
 }
 
+#txtEmail {
+    width: 90%;
+}
+
 
 .btn-primary {
 color: #ffffff;
