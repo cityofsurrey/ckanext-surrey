@@ -71,6 +71,8 @@ $(document).ready(function(){
     	geocoderInput.onclick = function () {
     		geocoderInput.val = '';
     	};
+        
+        $('#search').css('top', 'auto');
     
     	function initToolbar() {
     

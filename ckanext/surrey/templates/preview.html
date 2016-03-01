@@ -81,56 +81,56 @@
             #}
             {% block pre_primary %}
             {% endblock %}
+            
+            {% block secondary %}
+              <aside class="secondary span3" style="margin-left:0px;">
+	
+        		<h2 class="module-heading">
+        	      		<i class="icon-info-sign"></i>
+        	      		How to?
+        	    	</h2>
+        		<div class="module-content">
+        		Click on the map to review data attributes if applicable.  Then, follow the instructions below to receive a download link in an email.
+        		</div>
+        		<div id="dataDownload">
+        			<form name="orderform" autocomplete="on">
+        				<p style="font-weight:bold;">1. Enter Email address:</p>
+        				<input class="" id="txtEmail"   autocomplete="on" style="width: 185px;height:24px;" type="email">
+        				<p style="font-weight:bold;">2.&nbsp;
+        				<input id="drawABox" name="Button1"  class="btn btn-primary" type="button" value="Draw a Box">
+        				</p>
+        				<p style="font-weight:bold;">3.&nbsp;
+        				<input id="dldata" name="Button1" class="btn btn-primary" type="button" value="Download Data">
+        				</p>
+        			</form>
+        		</div>	
+
+        		<div id="attributeInspector" style="margin:0px;" class="module-content">
+        			<span id="header" style="margin: 10px;font-weight:bold;"> </span><br />
+
+          		<ul class="list" style="margin: 10px;">
+               <li>
+                   <span class="field" style=""></span>
+                   <span class="attribute"></span>  
+               </li>
+          		</ul>
+        		</div>
+
+              </aside>
+            {% endblock %}
 
             {% block primary %}
-              <div class="primary">
+              <div class="primary span9">
    
  							<div id="map">
- 								<div id="search"></div></div>
+ 								<div id="search" style="top:auto;"></div></div>
 
 
                 {% block primary_content %}{% endblock %}
               </div>
             {% endblock %}
 
-            {% block secondary %}
-              <aside class="secondary" style="float:left; width:200px;">
-	
-		<h2 class="module-heading">
-	      		<i class="icon-info-sign"></i>
-	      		How to?
-	    	</h2>
-		<div class="module-content">
-		Click on the map to review data attributes if applicable.  Then, follow the instructions below to receive a download link in an email.
-		</div>
-		<div id="dataDownload">
-			<form name="orderform" autocomplete="on">
-				<p style="font-weight:bold;">1. Enter Email address:</p>
-				<input class="" id="txtEmail"   autocomplete="on" style="width: 185px;height:24px;" type="email">
-				<p style="font-weight:bold;">2.&nbsp;
-				<input id="drawABox" name="Button1"  class="btn btn-primary" type="button" value="Draw a Box">
-				</p>
-				<p style="font-weight:bold;">3.&nbsp;
-				<input id="dldata" name="Button1" class="btn btn-primary" type="button" value="Download Data">
-				</p>
-			</form>
-		</div>	
-
-		<div id="attributeInspector" style="margin:0px;" class="module-content">
-			<span id="header" style="margin: 10px;font-weight:bold;"> </span><br />
-
-  		<ul class="list" style="margin: 10px;">
-       <li>
-           <span class="field" style=""></span>
-           <span class="attribute"></span>  
-       </li>
-  		</ul>
-		</div>
-
-
-                {% block secondary_content %}{% endblock %}
-              </aside>
-            {% endblock %}
+            
           </div>
         {% endblock %}
       </div>
