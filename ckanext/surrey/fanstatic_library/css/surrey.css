@@ -53,6 +53,10 @@ display: block;
     }
 }
 
+.map-steps li{
+    margin-bottom:5px;
+}
+
 .intro-text header a {
 text-decoration: underline;
 color: #fff;
