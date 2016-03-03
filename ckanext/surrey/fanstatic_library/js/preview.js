@@ -431,4 +431,6 @@ $(document).ready(function(){
     		return true;
     	}
     });
+    
+    $("#map").css("width", "95%");
 });
