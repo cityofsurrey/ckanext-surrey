@@ -71,6 +71,8 @@ $(document).ready(function(){
     	geocoderInput.onclick = function () {
     		geocoderInput.val = '';
     	};
+        
+        $('#search').css('top', 'auto');
     
     	function initToolbar() {
     
@@ -429,4 +431,6 @@ $(document).ready(function(){
     		return true;
     	}
     });
+    
+    $("#map").css("width", "95%");
 });

@@ -1,0 +1,28 @@
+#attributeInspector {
+padding: 0px;				
+}
+
+
+#dataDownload {
+	
+	padding: 10px;
+	padding-top: 5px;
+
+}
+
+#field-order-by{
+width:200px;
+}
+
+
+ul
+{
+    list-style-type: none;
+
+}
+
+#map{
+height:700px;
+width:717px;
+
+}
