@@ -1,6 +1,6 @@
 $(document).ready(function(){
-    require(["esri/map","esri/geometry/Extent", "esri/SpatialReference", "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/tasks/IdentifyTask", "esri/tasks/IdentifyParameters", "esri/toolbars/draw", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "dojo/dom", "dojo/on", "dojo/request", "dojo/_base/Color", "esri/graphic", "esri/tasks/query", "esri/tasks/QueryTask", "esri/dijit/Geocoder","dojo/domReady!"],
-    function (Map, Extent, SpatialReference, ArcGISTiledMapServiceLayer, ArcGISDynamicMapServiceLayer, IdentifyTask, IdentifyParameters, Draw, SimpleLineSymbol, SimpleFillSymbol, dom, on, request, Color, Graphic, Query, QueryTask, Geocoder) {
+    require(["esri/map","esri/geometry/Extent", "esri/graphicsUtils", "esri/SpatialReference", "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/tasks/IdentifyTask", "esri/tasks/IdentifyParameters", "esri/toolbars/draw", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "dojo/dom", "dojo/on", "dojo/request", "dojo/_base/Color", "esri/graphic", "esri/tasks/query", "esri/tasks/QueryTask", "esri/dijit/Geocoder","dojo/domReady!"],
+    function (Map, Extent, graphicsUtils, SpatialReference, ArcGISTiledMapServiceLayer, ArcGISDynamicMapServiceLayer, IdentifyTask, IdentifyParameters, Draw, SimpleLineSymbol, SimpleFillSymbol, dom, on, request, Color, Graphic, Query, QueryTask, Geocoder) {
     
         String.prototype.replaceAll = function(str1, str2, ignore) {
     	   return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
@@ -204,20 +204,9 @@ $(document).ready(function(){
     	}
     
     	function showResults(featureSet) {
-    		var zoomGraphic;
-    		var resultFeatures = featureSet.features;
-    
-    		if (resultFeatures.length < 1000) {
-    			var il = resultFeatures.length;
-    			for (var i = 0; i < il; i++) {
-    				zoomGraphic = resultFeatures[0];
-    			}
-    
-    			var extent = zoomGraphic.geometry.getExtent();
-    
-    			var newExtent = new Extent(extent.xmin, extent.ymin, extent.xmax, extent.ymax, sr);
-    			
-    			map.setExtent(newExtent);
+    		if (featureSet.features.length < 1000) {
+    			var ext = graphicsUtils.graphicsExtent(featureSet.features);
+    			map.setExtent(ext);
     		}
     	}
     
