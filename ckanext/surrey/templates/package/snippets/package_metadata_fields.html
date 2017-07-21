@@ -1,38 +1,118 @@
-{% ckan_extends %}
+{% import 'macros/form.html' as form %}
 
 {% block custom_fields %}
 {% endblock %}
 
-{% block package_metadata_fields_custom %}
+{% block package_metadata_fields %}
 
-{{ form.input('coordinate_system', label=_('Coordinate system'), id='field-coordinate_system', placeholder=_('WGS84, etc.'), value=data.coordinate_system, error=errors.coordinate_system, classes=['control-medium']) }}
-
-{{ form.input('more_information', label=_('More information'), id='field-more_information', placeholder=_('...'), value=data.more_information, error=errors.more_information, classes=['control-medium']) }}
-
-{{ form.input('attribute_details', label=_('Attribute details'), id='field-attribute_details', placeholder=_('...'), value=data.attribute_details, error=errors.attribute_details, classes=['control-medium']) }}
-
-  <div class="control-group">
-    <label class="control-label" for="field-update_frequency">{{ _("Data Update Frequency") }}</label>
-    <div class="controls">
-      <select id="field-update_frequency" name="update_frequency">
-        {% for update_frequency in h.update_frequency()  %}
-          <option value="{{ update_frequency }}" {% if update_frequency in data.get('update_frequency', []) %}selected="selected"{% endif %}>{{ update_frequency }}</option>
-        {% endfor %}
-      </select>
-    </div>
-  </div>
+    {% block package_metadata_fields_url %}
+        {{ form.input('url', label=_('Source'), id='field-url', placeholder=_('http://example.com/dataset.json'), value=data.url, error=errors.url, classes=['control-medium']) }}
+    {% endblock %}
 
 
-  <div class="control-group">
-    <label class="control-label" for="field-is_geospatial">{{ _("Use Map Preview") }}</label>
-    <div class="controls">
-      <select id="field-is_geospatial" name="is_geospatial">
-          <option value="0" {% if data.is_geospatial == "0" %}selected="selected"{% endif %}>{{ _("No") }}</option>           
-          <option value="1" {% if data.is_geospatial == "1" %}selected="selected"{% endif %}>{{ _("Yes") }}</option>       
-      </select>
-    </div>
-  </div>
 
- {{ super() }}
+    {% block package_metadata_fields_custom %}
+
+        <h2>Additional Information</h2>
+
+        {{ form.markdown('purpose', label=_('Purpose'), id='field-purpose', placeholder=_('Summary of the intentions for which the dataset was developed.'), value=data.purpose, error=errors.purpose, classes=['control-full']) }}
+        {{ form.markdown('data_quality', label=_('Data Quality'), id='field-data_quality', placeholder=_(''), value=data.data_quality, error=errors.data_quality, classes=['control-full']) }}
+        {{ form.markdown('lineage', label=_('Lineage Statement'), id='field-lineage', placeholder=_(''), value=data.lineage, error=errors.lineage, classes=['control-full']) }}
+
+        {{ form.markdown('more_information', label=_('More information'), id='field-more_information', placeholder=_('...'), value=data.more_information, error=errors.more_information, classes=['control-full']) }}
+
+        <h3>Contact information</h3>
+
+         {% block package_metadata_author %}
+            {{ form.input('author', label=_('Owner'), id='field-author', placeholder=_('Joe Bloggs'), value=data.author, error=errors.author, classes=['control-medium']) }}
+            {{ form.input('author_email', label=_('Owner Email'), id='field-author-email', placeholder=_('joe@example.com'), value=data.author_email, error=errors.author_email, classes=['control-medium']) }}
+        {% endblock %}
+
+        <div class="control-group">
+            <label for="field-department" class="control-label">{{ _("Department") }}</label>
+            <div class="controls">
+                <select name="department" id="field-department">
+                    {% for department in h.city_departments() %}
+                        <option value="{{ department }}"
+                                {% if department in data.get('department', []) %}selected="selected"{% endif %}> {{ department }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        {% block package_metadata_fields_maintainer %}
+            {{ form.input('maintainer', label=_('Maintainer'), id='field-maintainer', placeholder=_('Joe Bloggs'), value=data.maintainer, error=errors.maintainer, classes=['control-medium']) }}
+            {{ form.input('maintainer_email', label=_('Maintainer Email'), id='field-maintainer-email', placeholder=_('joe@example.com'), value=data.maintainer_email, error=errors.maintainer_email, classes=['control-medium']) }}
+        {% endblock %}
+
+
+        <h3>Access & Security</h3>
+        <div class="control-group">
+            <lablel for="field-available" class="control-label">{{  _("Who can view") }}</lablel>
+            <div class="controls">
+                <select name="available" id="field-available">
+                    <option value="public"
+                            {% if data.available == 'public' %}selected="selected"{% endif %}>Public</option>
+                    <option value="private"
+                            {% if data.available == 'Private' %}selected="selected"{% endif %}>Private</option>
+                </select>
+                <!-- /# -->
+            </div>
+            <!-- /.controls -->
+        </div>
+        <!-- /.control-group -->
+
+        <div class="control-group">
+            <lablel for="field-downloadable" class="control-label">{{  _("Who can download") }}</lablel>
+            <div class="controls">
+                <select name="downloadable" id="field-downloadable">
+                    <option value="public"
+                            {% if data.downloadable == 'public' %}selected="selected"{% endif %}>Public</option>
+                    <option value="private"
+                            {% if data.downloadable == 'Private' %}selected="selected"{% endif %}>Private</option>
+                </select>
+                <!-- /# -->
+            </div>
+            <!-- /.controls -->
+        </div>
+        <!-- /.control-group -->
+
+        <h3>Metadata Information</h3>
+        {{ form.input('coordinate_system', label=_('Coordinate system'), id='field-coordinate_system', placeholder=_('26910 (UTM Zone 10 NAD83)'), value=data.coordinate_system, error=errors.coordinate_system, classes=['control-medium']) }}
+
+        {{ form.input('attribute_details', label=_('Attribute details'), id='field-attribute_details', placeholder=_('...'), value=data.attribute_details, error=errors.attribute_details, classes=['control-medium']) }}
+
+        <div class="control-group">
+            <label class="control-label" for="field-update_frequency">{{ _("Data Update Frequency") }}</label>
+            <div class="controls">
+                <select id="field-update_frequency" name="update_frequency">
+                    {% for update_frequency in h.update_frequency() %}
+                        <option value="{{ update_frequency }}"
+                                {% if update_frequency in data.get('update_frequency', []) %}selected="selected"{% endif %}>{{ update_frequency }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="field-is_geospatial">{{ _("Use Map Preview") }}</label>
+            <div class="controls">
+                <select id="field-is_geospatial" name="is_geospatial">
+                    <option value="0"
+                            {% if data.is_geospatial == "0" %}selected="selected"{% endif %}>{{ _("No") }}</option>
+                    <option value="1"
+                            {% if data.is_geospatial == "1" %}selected="selected"{% endif %}>{{ _("Yes") }}</option>
+                </select>
+            </div>
+        </div>
+
+        {% block package_metadata_fields_version %}
+            {{ form.input('version', label=_('Version'), id='field-version', placeholder=_('1.0'), value=data.version, error=errors.version, classes=['control-medium']) }}
+        {% endblock %}
+
+    {% endblock %}
+
+    {% block dataset_fields %}
+    {% endblock %}
 
 {% endblock %}
