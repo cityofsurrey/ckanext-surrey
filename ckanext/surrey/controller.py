@@ -14,15 +14,80 @@ import ckan.lib.mailer as mailer
 from pylons import config
 import ckan.lib.captcha as captcha
 
+
+import ckan.model as model
+from urllib import urlencode
+from ckan.controllers.package import PackageController
+from ckan.logic import get_action, NotFound, NotAuthorized
+from ckanext.surrey.util.util import record_is_viewable, resource_is_viewable
+#
+
 DataError = dictization_functions.DataError
 unflatten = dictization_functions.unflatten
 
 
 log = getLogger(__name__)
+render = base.render
+abort = base.abort
+redirect = base.redirect
 
 
+def _encode_params(params):
+    return [(k, v.encode('utf-8') if isinstance(v, basestring) else str(v))
+            for k, v in params]
+
+def url_with_params(url, params):
+    params = _encode_params(params)
+    return url + u'?' + urlencode(params)
+
+
+class SurreyPackageController(PackageController):
+
+    def index(self):
+        url = h.url_for(controller='package', action='search')
+        log.info('Request url: %s' % (url,))
+        params = [(k, v) for k, v in request.params.items()]
+        log.info(params)
+        if not c.user:
+            params.append(('metadata_visibility', 'Public'))
+            redirect(url_with_params(url, params))
+        else:
+            redirect(url_with_params(url, params))
+
+
+    def read(self, id):
+        '''
+                First calls ckan's default read to get package data.
+                Then it checks if the package can be viewed by the user
+                '''
+        # the ofi object is now in the global vars for this view, to use it in templates, call `c.ofi`
+        result = super(SurreyPackageController, self).read(id)
+
+        log.debug('Called read method')
+        # Check if user can view this record
+        if not record_is_viewable(c.pkg_dict, c.userobj):
+            base.abort(401, _('Unauthorized to read package %s') % id)
+        return result
+
+    def resource_read(self, id, resource_id):
+        '''
+        First calls ckan's default resource read to get the resource and package data.
+        Then it checks if the resource can be viewed by the user
+        '''
+
+        result = super(SurreyPackageController, self).resource_read(id, resource_id)
+        log.debug('Called resource_read method')
+        if not record_is_viewable(c.pkg_dict, c.userobj):
+            base.abort(401, _('Unauthorized to read package %s') % id)
+        if not resource_is_viewable(c.pkg_dict, c.userobj):
+            base.abort(401, _('Unauthorized to read resource %s') % c.pkg_dict['name'])
+        return result
+
+    def request_access(self, id):
+        return base.render('package/request_access.html', extra_vars={'package': id, 'package_name': c.pkg_dict['title']})
 
 class FollowController(base.BaseController):
+
 
     def __before__(self, action, **env):
         base.BaseController.__before__(self, action, **env)
@@ -137,9 +202,6 @@ class SuggestController(base.BaseController):
         return base.render('suggest/form.html')
 
 
-
-
-
 class ContactController(base.BaseController):
 
     def __before__(self, action, **env):
@@ -229,3 +291,4 @@ class ContactController(base.BaseController):
 
         return base.render('contact/contact_base.html')
     
+

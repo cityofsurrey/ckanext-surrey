@@ -47,35 +47,33 @@
 
 
         <h3>Access & Security</h3>
-        <div class="control-group">
-            <lablel for="field-available" class="control-label">{{  _("Who can view") }}</lablel>
-            <div class="controls">
-                <select name="available" id="field-available">
-                    <option value="public"
-                            {% if data.available == 'public' %}selected="selected"{% endif %}>Public</option>
-                    <option value="private"
-                            {% if data.available == 'Private' %}selected="selected"{% endif %}>Private</option>
-                </select>
-                <!-- /# -->
-            </div>
-            <!-- /.controls -->
-        </div>
-        <!-- /.control-group -->
 
         <div class="control-group">
-            <lablel for="field-downloadable" class="control-label">{{  _("Who can download") }}</lablel>
+            <lablel for="field-view_audience" class="control-label">{{  _("View Audience") }}</lablel>
             <div class="controls">
-                <select name="downloadable" id="field-downloadable">
-                    <option value="public"
-                            {% if data.downloadable == 'public' %}selected="selected"{% endif %}>Public</option>
-                    <option value="private"
-                            {% if data.downloadable == 'Private' %}selected="selected"{% endif %}>Private</option>
+                <select name="view_audience" id="field-view_audience">
+                    <option value="Public"
+                            {% if data.view_audience == 'Public' %}selected="selected"{% endif %}>Public</option>
+                    <option value="Private"
+                            {% if data.view_audience == 'Private' %}selected="selected"{% endif %}>Private</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <lablel for="field-metadata_visibility" class="control-label">{{  _("Visibility") }}</lablel>
+            <div class="controls">
+                <select name="metadata_visibility" id="field-metadata_visibility">
+                    <option value="Public"
+                            {% if data.metadata_visibility == 'Public' %}selected="selected"{% endif %}>Public</option>
+                    <option value="Private"
+                            {% if data.metadata_visibility == 'Private' %}selected="selected"{% endif %}>Private</option>
                 </select>
                 <!-- /# -->
             </div>
             <!-- /.controls -->
         </div>
-        <!-- /.control-group -->
 
         <h3>Metadata Information</h3>
         {{ form.input('coordinate_system', label=_('Coordinate system'), id='field-coordinate_system', placeholder=_('26910 (UTM Zone 10 NAD83)'), value=data.coordinate_system, error=errors.coordinate_system, classes=['control-medium']) }}

@@ -2,6 +2,17 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as tk
 import time
 
+from ckanext.surrey.util.util import get_orgs_user_can_edit, record_is_viewable, resource_is_viewable
+from ckan.lib.navl.validators import not_empty
+from ckan.common import _, request, c, response, g
+import ckan.logic as logic
+import ckan.lib.base as base
+from logging import getLogger
+log = getLogger(__name__)
+
+
+NotAuthorized = logic.NotAuthorized
+NotFound = logic.NotFound
 
 # Our custom template helper function.
 def format_date(date):
@@ -10,7 +21,6 @@ def format_date(date):
     output = time.strftime("%B %d, %Y", mytime)
     # Just return some example text.
     return output
-
 
 def update_frequency():
     frequency_list = (u"Yearly", u"Monthly", u"Weekly", u"Daily", u"Realtime", u"Punctual", u"Variable", u"Never")
@@ -29,7 +39,6 @@ def get_group_list():
         data_dict={'all_fields': True})
 
     return groups
-
 
 def get_summary_list(num_packages):
     list_without_summary = \
@@ -95,6 +104,9 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
     plugins.implements(plugins.IDatasetForm, inherit=False)
     plugins.implements(plugins.ITemplateHelpers)
 
+    plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IRoutes, inherit=True)
+
     num_times_new_template_called = 0
     num_times_read_template_called = 0
     num_times_edit_template_called = 0
@@ -115,8 +127,15 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
     # Tell CKAN what custom template helper functions this plugin provides,
     # see the ITemplateHelpers plugin interface.
     def get_helpers(self):
-        return {'format_date': format_date, 'update_frequency': update_frequency, 'city_departments': city_departments,
-                'get_group_list': get_group_list, 'get_summary_list': get_summary_list}
+        return {
+            'format_date': format_date,
+            'update_frequency': update_frequency,
+            'city_departments': city_departments,
+            'get_group_list': get_group_list,
+            'get_summary_list': get_summary_list,
+            'record_is_viewable': record_is_viewable,
+            'resource_is_viewable': resource_is_viewable,
+        }
 
     def is_fallback(self):
         # Return True to register this plugin as the default handler for
@@ -175,14 +194,10 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         })
 
         schema.update({
-            'available': [tk.get_validator('ignore_missing'),
-                          tk.get_converter('convert_to_extras')]
+            'view_audience': [not_empty, tk.get_converter('convert_to_extras')],
+            'metadata_visibility': [not_empty, tk.get_converter('convert_to_extras')]
         })
 
-        schema.update({
-            'downloadable': [tk.get_validator('ignore_missing'),
-                          tk.get_converter('convert_to_extras')]
-        })
         return schema
 
     def create_package_schema(self):
@@ -245,14 +260,10 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         })
 
         schema.update({
-            'available': [tk.get_converter('convert_from_extras'),
-                          tk.get_validator('ignore_missing')]
+            'view_audience': [tk.get_converter('convert_from_extras'), not_empty],
+            'metadata_visibility': [tk.get_converter('convert_from_extras'), not_empty]
         })
 
-        schema.update({
-            'downloadable': [tk.get_converter('convert_from_extras'),
-                          tk.get_validator('ignore_missing')]
-        })
         return schema
 
     # These methods just record how many times they're called, for testing
@@ -294,3 +305,105 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
     # legacy support for the deprecated method works.
     def check_data_dict(self, data_dict, schema=None):
         SurreyTemplatePlugin.num_times_check_data_dict_called += 1
+
+    def before_map(self, map):
+        from routes.mapper import SubMapper
+        package_controller = 'ckanext.surrey.controller:SurreyPackageController'
+
+        # map.connect('package_index', '/', controller=package_controller, action='index', path_prefix='/dataset')
+        map.connect('home', '/', controller='home', action='index')
+
+        with SubMapper(map, controller=package_controller, path_prefix='/dataset') as m:
+            m.connect('search', '/', action='search', highlight_actions='index search')
+            m.connect('add dataset', '/new', action='new')
+            m.connect('dataset_read', '/{id}', action='read', ckan_icon='sitemap')
+            m.connect('/{id}/resource/{resource_id}', action='resource_read')
+            m.connect('resources', '/resources/{id}', action='resources')
+            m.connect('request access', '/{id}/access', action='request_access')
+
+        return map
+
+    def after_map(self, map):
+        return map
+
+    def before_search(self, search_params):
+        '''
+        Customizes package search and applies filters based on the dataset metadata-visibility
+        and user roles.
+        '''
+        # log.debug('Calling extension before_search method with %s' % (search_params,))
+        # Change the default sort order when no query passed
+        if not search_params.get('q') and search_params.get('sort') in (None, 'rank'):
+            search_params['sort'] = 'record_publish_date desc, metadata_modified desc'
+
+        # Change the query filter depending on the user
+
+        if 'fq' in search_params:
+            fq = search_params['fq']
+        else:
+            fq = ''
+
+        # need to append solr param q.op to force an AND query
+        if 'q' in search_params:
+            q = search_params['q']
+            if q != '':
+                q = '{!lucene q.op=AND}' + q
+                search_params['q'] = q
+        else:
+            q = ''
+
+        try:
+            user_name = c.user or 'visitor'
+
+            #  There are no restrictions for sysadmin
+            if c.userobj and c.userobj.sysadmin == True:
+                fq += ' '
+            else:
+                if user_name != 'visitor':
+                    fq += ' +('
+                    if 'owner_org' not in fq:
+
+                        user_id = c.userobj.id
+                        # Get the list of orgs that the user is an admin or editor of
+                        user_orgs = get_orgs_user_can_edit(c.userobj)
+                        if user_orgs != []:
+                            fq += ' OR ' + 'owner_org:(' + ' OR '.join(user_orgs) + ')'
+
+                        fq += ')'
+                # Public user can only view public and published records
+                # All need to check for the absence of the metadata_visibility field to handle legacy datasets
+                else:
+                    fq += ' -metadata_visibility:("Private")'
+
+        except Exception:
+            if 'fq' in search_params:
+                fq = search_params['fq']
+            else:
+                fq = ''
+            fq += ' -metadata_visibility:("Private")'
+
+        search_params['fq'] = fq
+        log.info('Query string is %s' % (fq,))
+        return search_params
+
+    def after_search(self, search_results, search_params):
+        # log.info('Search results: %s' % (search_results))
+        return search_results
+
+    def before_view(self, pkg_dict):
+        if not record_is_viewable(pkg_dict, c.userobj):
+            base.abort(401, _('Unauthorized to read package %s') % pkg_dict.get("title"))
+
+        return pkg_dict
+
+    def before_index(self, pkg_dict):
+        '''
+        Makes the sort by name case insensitive.
+        Note that the search index must be rebuild for the first time in order for the changes to take affect.
+        '''
+        title = pkg_dict['title']
+        if title:
+            # Assign title to title_string with all characters switched to lower case.
+            pkg_dict['title_string'] = title.lower()
+
+        return pkg_dict
