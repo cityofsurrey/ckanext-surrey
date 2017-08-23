@@ -101,11 +101,11 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
 
     '''
     plugins.implements(plugins.IConfigurer)
-    plugins.implements(plugins.IDatasetForm, inherit=False)
-    plugins.implements(plugins.ITemplateHelpers)
-
-    plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IDatasetForm, inherit=False)
+
 
     num_times_new_template_called = 0
     num_times_read_template_called = 0
@@ -308,19 +308,27 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
 
     def before_map(self, map):
         from routes.mapper import SubMapper
-        package_controller = 'ckanext.surrey.controller:SurreyPackageController'
 
-        # map.connect('package_index', '/', controller=package_controller, action='index', path_prefix='/dataset')
+        package_controller = 'ckanext.surrey.controller:SurreyPackageController'
+        api_controller = 'ckanext.surrey.controller:SurreyAPIController'
+
+        GET = dict(method=['GET'])
         map.connect('home', '/', controller='home', action='index')
 
         with SubMapper(map, controller=package_controller, path_prefix='/dataset') as m:
             m.connect('search', '/', action='search', highlight_actions='index search')
             m.connect('add dataset', '/new', action='new')
-            m.connect('dataset_read', '/{id}', action='read', ckan_icon='sitemap')
-            m.connect('/{id}/resource/{resource_id}', action='resource_read')
-            m.connect('resources', '/resources/{id}', action='resources')
             m.connect('request access', '/{id}/access', action='request_access')
+            m.connect('download resource', '/{id}/resource/{resource_id}/download/{filename}', action='resource_download')
+            m.connect('/{id}/resource/{resource_id}', action='resource_read')
+            m.connect('dataset read', '/{id}', action='read', ckan_icon='sitemap')
+            m.connect('resources', '/resources/{id}', action='resources')
 
+
+        with SubMapper(map, controller=api_controller, path_prefix='/api{ver:/1|/2|/3|}', ver='/3') as m:
+            m.connect('/action/package_list', action='restricted_package_list', conditions=GET)
+            m.connect('/action/current_package_list_with_resources', action='restricted_package_list_with_resources', conditions=GET)
+            m.connect('/action/package_show', action='restricted_package_show', conditions=GET)
         return map
 
     def after_map(self, map):

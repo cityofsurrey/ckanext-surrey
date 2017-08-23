@@ -152,7 +152,7 @@ def record_is_viewable(pkg_dict, userobj):
 
 
 def resource_is_viewable(pkg_dict, userobj):
-    log.info('Checking if %s is viewable' % pkg_dict['name'])
+    log.info('Checking if %s has accessible resources' % pkg_dict['name'])
 
     if record_is_viewable(pkg_dict, userobj) == False:
         return False
