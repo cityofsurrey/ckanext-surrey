@@ -22,31 +22,42 @@
         {% endif %}
       {% endblock %}
     </h1>
-    {% block package_purpose %}
-      {% if pkg['purpose'] %}
-        <div class="purpose embedded-content">
-          {{ h.render_markdown(pkg['purpose']) }}
-        </div>
-      {% endif %}
+    {% block publisher_info %}
+    <div class="publisher-info">
+      <div class="publisher"><b>Published By: </b>City of Surry, {{ pkg.department }}</div>
+      <div><b>Licensed Under: </b>
+       {% macro license_string(pkg) %}
+          {% if 'license_url' in pkg %}
+            <a href="{{ pkg.license_url }}" rel="dc:rights">{{ pkg.license_title }}</a>
+          {% else %}
+            <span property="dc:rights">{{ pkg.license_title }}</span>
+          {% endif %}
+        {% endmacro %}
+        {% if pkg.license_id %}
+          {{ license_string(pkg) }}
+        {% else %}
+          {{ _('No License Provided') }}
+        {% endif %}
+      </div>
+    </div>
     {% endblock %}
     {% block package_notes %}
       {% if pkg.notes %}
-        <div class="notes embedded-content">
-          {{ h.render_markdown(h.get_translated(pkg, 'notes')) }}
+        <div style="padding-top:5px" class="notes embedded-content">
+          {{ h.render_markdown(pkg.notes) }}
         </div>
       {% endif %}
     {% endblock %}
-    {# FIXME why is this here? seems wrong #}
-    <span class="insert-comment-thread"></span>
+  {% endblock %}
+
+  {% block package_tags %}
+    {% snippet "package/snippets/tags.html", tags=pkg.tags %}
   {% endblock %}
 
   {% block package_resources %}
     {% snippet "package/snippets/resources_list.html", pkg=pkg, resources=pkg.resources %}
   {% endblock %}
 
-  {% block package_tags %}
-    {% snippet "package/snippets/tags.html", tags=pkg.tags %}
-  {% endblock %}
 
   {% block package_additional_info %}
     {% snippet "package/snippets/additional_info.html", pkg_dict=pkg %}

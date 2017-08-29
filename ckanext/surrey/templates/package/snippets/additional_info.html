@@ -1,27 +1,82 @@
 <section class="module-content additional-info">
-  <h3>{{ _('Details') }}</h3>
+  <h3>{{ _('Additional Information') }}</h3>
 
-  {% if pkg_dict['purpose'] %}
+  {% if pkg_dict.purpose %}
     <div class="purpose embedded-content">
       <h5>Purpose</h5>
-      {{ h.render_markdown(pkg_dict['purpose']) }}
+      {{ h.render_markdown(pkg_dict.purpose) }}
     </div>
   {% endif %}
 
-  {% if pkg_dict['data_quality'] %}
+  {% if pkg_dict.data_quality %}
     <div class="data-quality embedded-content">
       <h5>Data quality</h5>
-      {{ h.render_markdown(pkg_dict['data_quality']) }}
+      {{ h.render_markdown(pkg_dict.data_quality) }}
     </div>
   {% endif %}
 
-  {% if pkg_dict['lineage'] %}
+  {% if pkg_dict.lineage %}
     <div class="lineage embedded-content">
       <h5>Data Lineage</h5>
-      {{ h.render_markdown(pkg_dict['lineage']) }}
+      {{ h.render_markdown(pkg_dict.lineage) }}
     </div>
   {% endif %}
+  
+    {% if pkg_dict.more_information %}
+      <tr>
+        <th scope="row" class="dataset-label">{{ _("More information") }}</th>
+        <td class="dataset-details">{{ pkg_dict.more_information }}</td>
+      </tr>
+    {% endif %}
 
+  <h4>{{ _('Contact Information') }}</h4>
+
+  <table class="table table-striped table-bordered table-condensed">
+    <tbody>
+    {% if pkg_dict.owner %}
+    <tr>
+      <th scope="row" class="dataset-label">{{ _('Owner') }}</th>
+      <td class="dataset-details" property="dc:owner">{{ pkg_dict.owner }}</td>
+    </tr>
+    {% endif %}
+    {% if pkg_dict.department %}
+    <tr>
+      <th scope="row" class="dataset-label">{{ _('Department') }}</th>
+      <td class="dataset-details" property="dc:owner">{{ pkg_dict.department }}</td>
+    </tr>
+    {% endif %}
+    {% if pkg_dict.organization %}
+    <tr>
+      <th scope="row" class="dataset-label">{{ _('Organization') }}</th>
+      <td class="dataset-details" property="dc:owner"><a href="/organization/{{ pkg_dict.organization.name }}">{{pkg_dict.organization.title}}</a></td>
+    </tr>
+    {% endif %}
+    {% if pkg_dict.maintainer_email %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("Custodian") }}</th>
+          <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</td>
+        </tr>
+    {% endif %}
+    </tbody>
+  </table>
+  <h4>{{ _('Access and Security') }}</h4> 
+  <table class="table table-striped table-bordered table-condensed">
+    <tbody>
+      {% if pkg_dict.metadata_visibility %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _("Who can view this Dataset") }}</th>
+            <td class="dataset-details" property="dc:creator">{{ pkg_dict.metadata_visibility }}</td>
+          </tr>
+      {% endif %}
+      {% if pkg_dict.view_audience %}
+          <tr>
+            <th scope="row" class="dataset-label">{{ _("Who can download this Dataset") }}</th>
+            <td class="dataset-details" property="dc:creator">{{ pkg_dict.view_audience }}</td>
+          </tr>
+      {% endif %}
+    </tbody>
+  </table>
+  <h4>{{ _('Metatdata Information') }}</h4>
   <table class="table table-striped table-bordered table-condensed">
     <!-- Removed -->
     <!--thead>
@@ -69,7 +124,6 @@
         </tr>
       {% endif %}
 
-      {#  TODO: ADD LAST UPDATED #}
       {% if pkg_dict.version %}
         <tr>
           <th scope="row" class="dataset-label">{{ _("Version") }}</th>
@@ -84,18 +138,10 @@
         </tr>
       {% endif %}
 
-
       {% if pkg_dict.coordinate_system %}
         <tr>
           <th scope="row" class="dataset-label">{{ _("Coordinate system") }}</th>
           <td class="dataset-details">{{ pkg_dict.coordinate_system }}</td>
-        </tr>
-      {% endif %}
-
-      {% if pkg_dict.more_information %}
-        <tr>
-          <th scope="row" class="dataset-label">{{ _("More information") }}</th>
-          <td class="dataset-details">{{ pkg_dict.more_information }}</td>
         </tr>
       {% endif %}
 
