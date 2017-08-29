@@ -1,6 +1,27 @@
 <section class="module-content additional-info">
   <h3>{{ _('Details') }}</h3>
 
+  {% if pkg_dict['purpose'] %}
+    <div class="purpose embedded-content">
+      <h5>Purpose</h5>
+      {{ h.render_markdown(pkg_dict['purpose']) }}
+    </div>
+  {% endif %}
+
+  {% if pkg_dict['data_quality'] %}
+    <div class="data-quality embedded-content">
+      <h5>Data quality</h5>
+      {{ h.render_markdown(pkg_dict['data_quality']) }}
+    </div>
+  {% endif %}
+
+  {% if pkg_dict['lineage'] %}
+    <div class="lineage embedded-content">
+      <h5>Data Lineage</h5>
+      {{ h.render_markdown(pkg_dict['lineage']) }}
+    </div>
+  {% endif %}
+
   <table class="table table-striped table-bordered table-condensed">
     <!-- Removed -->
     <!--thead>
