@@ -2,7 +2,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as tk
 import time
 
-from ckanext.surrey.util.util import get_orgs_user_can_edit, record_is_viewable, resource_is_viewable
+from ckanext.surrey.util.util import get_orgs_user_can_edit, record_is_viewable, resource_is_viewable, most_recent_resource_update
 from ckan.lib.navl.validators import not_empty
 from ckan.common import _, request, c, response, g
 import ckan.logic as logic
@@ -135,6 +135,7 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
             'get_summary_list': get_summary_list,
             'record_is_viewable': record_is_viewable,
             'resource_is_viewable': resource_is_viewable,
+            'most_recent_resource_update': most_recent_resource_update,
         }
 
     def is_fallback(self):

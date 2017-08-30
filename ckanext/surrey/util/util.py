@@ -1,4 +1,3 @@
-
 from logging import getLogger
 import ckan.model as model
 import ckan.plugins.toolkit as toolkit
@@ -190,3 +189,6 @@ def resource_is_viewable(pkg_dict, userobj):
 
     log.info('No authorized user found.')
     return False
+
+def most_recent_resource_update(pkg_dict):
+    return max([r['last_modified'] for r in pkg_dict['resources']])
