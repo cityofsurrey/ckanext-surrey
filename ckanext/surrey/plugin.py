@@ -199,6 +199,11 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
             'metadata_visibility': [not_empty, tk.get_converter('convert_to_extras')]
         })
 
+        schema.update({
+            'custodian': [tk.get_validator('ignore_missing'), tk.get_converter('convert_to_extras')],
+            'custodian_email': [tk.get_validator('ignore_missing'), tk.get_converter('convert_to_extras')]
+        })
+
         return schema
 
     def create_package_schema(self):
@@ -263,6 +268,13 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         schema.update({
             'view_audience': [tk.get_converter('convert_from_extras'), not_empty],
             'metadata_visibility': [tk.get_converter('convert_from_extras'), not_empty]
+        })
+
+        schema.update({
+            'custodian':[tk.get_converter('convert_from_extras'),
+                        tk.get_validator('ignore_missing')],
+            'custodian_email':  [tk.get_converter('convert_from_extras'),
+                        tk.get_validator('ignore_missing')]
         })
 
         return schema

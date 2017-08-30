@@ -51,10 +51,39 @@
       <td class="dataset-details" property="dc:owner"><a href="/organization/{{ pkg_dict.organization.name }}">{{pkg_dict.organization.title}}</a></td>
     </tr>
     {% endif %}
-    {% if pkg_dict.maintainer_email %}
+      {% if pkg_dict.author_email %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("Author") }}</th>
+          <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=pkg_dict.author_email, name=pkg_dict.author) }}</td>
+        </tr>
+      {% elif pkg_dict.author %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("Author") }}</th>
+          <td class="dataset-details" property="dc:creator">{{ pkg_dict.author }}</td>
+        </tr>
+      {% endif %}
+
+      {% if pkg_dict.maintainer_email %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
+          <td class="dataset-details" property="dc:contributor">{{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</td>
+        </tr>
+      {% elif pkg_dict.maintainer %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
+          <td class="dataset-details" property="dc:contributor">{{ pkg_dict.maintainer }}</td>
+        </tr>
+      {% endif %}
+
+    {% if pkg_dict.custodian_email %}
         <tr>
           <th scope="row" class="dataset-label">{{ _("Custodian") }}</th>
-          <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</td>
+          <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=pkg_dict.custodian_email, name=pkg_dict.custodian) }}</td>
+        </tr>
+    {% elif pkg_dict.custodian %}
+        <tr>
+          <th scope="row" class="dataset-label">{{ _("Custodian") }}</th>
+          <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=pkg_dict.custodian_email, name=pkg_dict.custodian) }}</td>
         </tr>
     {% endif %}
     </tbody>
@@ -109,30 +138,6 @@
         <tr>
           <th scope="row" class="dataset-label">{{ _('Source') }}</th>
           <td class="dataset-details" property="foaf:homepage">{{ h.link_to(pkg_dict.url, pkg_dict.url, rel='foaf:homepage', target='_blank') }}</td>
-        </tr>
-      {% endif %}
-
-      {% if pkg_dict.author_email %}
-        <tr>
-          <th scope="row" class="dataset-label">{{ _("Author") }}</th>
-          <td class="dataset-details" property="dc:creator">{{ h.mail_to(email_address=pkg_dict.author_email, name=pkg_dict.author) }}</td>
-        </tr>
-      {% elif pkg_dict.author %}
-        <tr>
-          <th scope="row" class="dataset-label">{{ _("Author") }}</th>
-          <td class="dataset-details" property="dc:creator">{{ pkg_dict.author }}</td>
-        </tr>
-      {% endif %}
-
-      {% if pkg_dict.maintainer_email %}
-        <tr>
-          <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
-          <td class="dataset-details" property="dc:contributor">{{ h.mail_to(email_address=pkg_dict.maintainer_email, name=pkg_dict.maintainer) }}</td>
-        </tr>
-      {% elif pkg_dict.maintainer %}
-        <tr>
-          <th scope="row" class="dataset-label">{{ _('Maintainer') }}</th>
-          <td class="dataset-details" property="dc:contributor">{{ pkg_dict.maintainer }}</td>
         </tr>
       {% endif %}
 

@@ -44,7 +44,11 @@
             {{ form.input('maintainer', label=_('Maintainer'), id='field-maintainer', placeholder=_('Joe Bloggs'), value=data.maintainer, error=errors.maintainer, classes=['control-medium']) }}
             {{ form.input('maintainer_email', label=_('Maintainer Email'), id='field-maintainer-email', placeholder=_('joe@example.com'), value=data.maintainer_email, error=errors.maintainer_email, classes=['control-medium']) }}
         {% endblock %}
-
+        
+        {% block package_metadata_fields_custodian %}
+            {{ form.input('custodian', label=_('Custodian'), id='field-custodian', placeholder=_(''), value=data.custodian, error=errors.custodian, classes=['control-medium']) }}
+            {{ form.input('custodian_email', label=_('Custodian Email'), id='field-custodian-email', placeholder=_('joe@example.com'), value=data.custodian_email, error=errors.custodian_email, classes=['control-medium']) }}
+        {% endblock %}
 
         <h3>Access & Security</h3>
 
