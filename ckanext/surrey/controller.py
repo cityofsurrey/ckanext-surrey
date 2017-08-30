@@ -245,7 +245,7 @@ class SurreyAPIController(ApiController):
                 return self._finish(403, return_dict, content_type='json')
             if not resource_is_viewable(pkg, c.userobj):
                 pkg['resources'] = None
-                return_dict['msg'] = "Access to these resources are restricted. Please submit an FOI request via http://www.surrey.ca/city-government/3062.aspx or contact Michael.Mayer@surrey.ca."
+                return_dict['msg'] = "Access to these resources are restricted. Please submit an FOI request via http://www.surrey.ca/city-government/3062.aspx or contact opendata@surrey.ca."
             return_dict['success'] = True
             return_dict['result'] = pkg
         except NotFound as e:
