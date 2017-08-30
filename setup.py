@@ -27,9 +27,7 @@ setup(
         [ckan.plugins]
 	# Add plugins here, eg
 	surrey=ckanext.surrey.plugin:SurreyTemplatePlugin
-    surreyfacet=ckanext.surrey.plugin:SurreyFacetPlugin
-    surreyextrapages=ckanext.surrey.plugin:SurreyExtraPagesPlugin
-    surreyauth=ckanext.surrey.plugin:SurreyAuthPlugin
-    surreypkg=ckanext.surrey.plugin:SurreyPackagePlugin
+        surreyfacet=ckanext.surrey.plugin:SurreyFacetPlugin
+        surreyextrapages=ckanext.surrey.plugin:SurreyExtraPagesPlugin
 	""",
 )
