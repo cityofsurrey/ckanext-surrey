@@ -1,0 +1,26 @@
+{% extends "page.html" %}
+
+{% block breadcrumb_content %}
+    <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
+{#    TODO Figure out how to get the dataset name instead of slug#}
+    <li>{% link_for _(package_name), controller='package', action='read', id=package %}</li>
+    <li class="active"><a href="">{{ _('Request Access') }}</a></li>
+{% endblock %}
+
+
+{% block subtitle %}
+	Request Access
+{% endblock %}
+
+{% block primary_content %}
+<article class="module">
+	<div class="module-content auth-content">
+	<p>
+        Access to <em>{{ package_name }}</em> is restricted. If you would like access please submit a <a href="http://www.surrey.ca/city-government/3062.aspx">FOI request</a> or contact <a href="mailto:opendata@surrey.ca">Surrey Open Data</a> for more assistance.
+    </p>
+	</div>
+</article>
+{% endblock %}
+
+{% block secondary %}
+{% endblock %}

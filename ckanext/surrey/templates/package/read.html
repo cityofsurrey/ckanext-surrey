@@ -1,0 +1,66 @@
+{% extends "package/read_base.html" %}
+
+{% set pkg = c.pkg_dict %}
+
+{% block primary_content_inner %}
+  {{ super() }}
+  {% block package_description %}
+    {% if pkg.private %}
+      <span class="dataset-private label label-inverse pull-right">
+        <i class="fa fa-lock"></i>
+        {{ _('Private') }}
+      </span>
+    {% endif %}
+    <h1>
+      {% block page_heading %}
+        {{ h.dataset_display_name(pkg) }}
+        {% if pkg.state.startswith('draft') %}
+          [{{ _('Draft') }}]
+        {% endif %}
+        {% if pkg.state == 'deleted' %}
+          [{{ _('Deleted') }}]
+        {% endif %}
+      {% endblock %}
+    </h1>
+    {% block publisher_info %}
+    <div class="publisher-info">
+      <div class="publisher"><b>Published By: </b>City of Surry, {{ pkg.department }}</div>
+      <div><b>Licensed Under: </b>
+       {% macro license_string(pkg) %}
+          {% if 'license_url' in pkg %}
+            <a href="{{ pkg.license_url }}" rel="dc:rights">{{ pkg.license_title }}</a>
+          {% else %}
+            <span property="dc:rights">{{ pkg.license_title }}</span>
+          {% endif %}
+        {% endmacro %}
+        {% if pkg.license_id %}
+          {{ license_string(pkg) }}
+        {% else %}
+          {{ _('No License Provided') }}
+        {% endif %}
+      </div>
+    </div>
+    {% endblock %}
+    {% block package_notes %}
+      {% if pkg.notes %}
+        <div style="padding-top:5px" class="notes embedded-content">
+          {{ h.render_markdown(pkg.notes) }}
+        </div>
+      {% endif %}
+    {% endblock %}
+  {% endblock %}
+
+  {% block package_tags %}
+    {% snippet "package/snippets/tags.html", tags=pkg.tags %}
+  {% endblock %}
+
+  {% block package_resources %}
+    {% snippet "package/snippets/resources_list.html", pkg=pkg, resources=pkg.resources %}
+  {% endblock %}
+
+
+  {% block package_additional_info %}
+    {% snippet "package/snippets/additional_info.html", pkg_dict=pkg %}
+  {% endblock %}
+
+{% endblock %}

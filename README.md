@@ -1,4 +1,4 @@
-#City of Surrey CKAN extension
+# City of Surrey CKAN extension
 
 *CKAN extension development for the implementation of the [City of Surrey](https://www.surrey.ca/)*
 
@@ -11,6 +11,7 @@ The extension contains the following features:
 - Add predefined extra fields at the dataset level
 - Support custom templates
 - Remove 'organization' from the facet list and various other places
+- Allows data managers to designate datasets as public, public w/ limited access to resources, private to organizational users
 
 More documentation available in  [ckanext/surrey/docs/customization.md](ckanext/surrey/docs/customization.md)
 

@@ -99,6 +99,13 @@ text-align: center;
     width: 100%;
 }
 
+.module-content .additional-info {
+  padding-left: 0;
+}
+
+.nodule-content > .notes { 
+  padding-top: 5;
+}
 
 .account-masthead {
     background: url("../../../base/images/bg.png") repeat scroll 0 0 #D7D3C6;
