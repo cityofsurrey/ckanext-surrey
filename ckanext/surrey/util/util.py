@@ -25,23 +25,26 @@ def get_package_extras_by_key(pkg_extra_key, pkg_dict):
         return False
 
 
-# def get_package_metadata_visibility(pkg):
-#     mv = None
-#     try:
-#         pkg_extras = pkg.extras
-#     except AttributeError:
-#         try:
-#             pkg_extras = pkg['extras']
-#         except KeyError:
-#             return mv
-#     try:
-#         for extras in pkg_extras:
-#             if 'key' in extras:
-#                 if extras['key'] == 'metadata_visibility':
-#                     mv = extras['value']
-#     except Exception as e:
-#         log.info('Except: %s' % (e,))
-#     return mv
+def get_package_metadata_visibility(pkg):
+    mv = None
+    try:
+        mv = pkg['metadata_visibility']
+    except KeyError:
+        try:
+            pkg_extras = pkg.extras
+        except AttributeError:
+            try:
+                pkg_extras = pkg['extras']
+            except KeyError:
+                return mv
+        try:
+            for extras in pkg_extras:
+                if 'key' in extras:
+                    if extras['key'] == 'metadata_visibility':
+                        mv = extras['value']
+        except Exception as e:
+            log.error('Except: %s' % (e,))
+    return mv
 
 def get_package_owner_org(pkg):
     try:
@@ -112,17 +115,13 @@ def record_is_viewable(pkg_dict, userobj):
     Government users who are not admins or editors can only see the published or pending  archive records.
     Editors and admins can see all the records of their organizations in addition to what government users can see.
     '''
-    log.info('Checking if %s is viewable' % pkg_dict)
+    log.info('Checking if %s is viewable' % pkg_dict['name'])
 
     # Sysadmin can view all records
     if userobj and userobj.sysadmin == True :
         return True
-
-    if 'metadata_visibility' in pkg_dict:
-        metadata_visibility = pkg_dict['metadata_visibility']
-    else:
-        metadata_visibility = get_package_extras_by_key('metadata_visibility', pkg_dict)
-
+    
+    metadata_visibility = get_package_metadata_visibility(pkg_dict)
 
     log.info('Metadata Visibility set to %s' % (metadata_visibility))
     if userobj:

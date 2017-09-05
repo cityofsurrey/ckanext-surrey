@@ -352,7 +352,6 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         Customizes package search and applies filters based on the dataset metadata-visibility
         and user roles.
         '''
-        # log.debug('Calling extension before_search method with %s' % (search_params,))
         # Change the default sort order when no query passed
         if not search_params.get('q') and search_params.get('sort') in (None, 'rank'):
             search_params['sort'] = 'record_publish_date desc, metadata_modified desc'
