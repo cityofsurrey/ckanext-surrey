@@ -1,10 +1,37 @@
+import re
+
 from logging import getLogger
 import ckan.model as model
 import ckan.plugins.toolkit as toolkit
 from ckan.common import  c
+import pylons.config as config
 from ckan.lib.base import _
+from IPy import IP
+
 
 log = getLogger(__name__)
+
+def get_whitelist_settings():
+    white_list = config.get('ckanext.surrey_whitelist', '')
+    if white_list:
+        delimiters = [' , ', ', ', ' ,', ',', '  ', ' ', ' ; ', ' ;', '; ', ';', ' | ', ' |', '| ', '|']
+        for ch in delimiters:
+            white_list = white_list.replace(ch, ',')
+        return white_list.split(',')
+    return white_list
+
+def check_if_whitelisted(remote_addr):
+    '''Load white list from settings. Returns true if settings are missing.'''
+    white_list_settings = get_whitelist_settings()
+    log.info(white_list_settings)
+    if white_list_settings:
+        surrey_white_list = [IP(wl) for wl in white_list_settings]
+        for white_list in surrey_white_list:
+            log.info('Checking if %s is in whitelist: %s' % (remote_addr, white_list))
+            if remote_addr in white_list:
+                return True
+    return False
+
 
 def get_package_extras_by_key(pkg_extra_key, pkg_dict):
     '''
@@ -41,6 +68,27 @@ def get_package_metadata_visibility(pkg):
             for extras in pkg_extras:
                 if 'key' in extras:
                     if extras['key'] == 'metadata_visibility':
+                        mv = extras['value']
+        except Exception as e:
+            log.error('Except: %s' % (e,))
+    return mv
+
+def get_view_audience(pkg):
+    mv = None
+    try:
+        mv = pkg['view_audience']
+    except KeyError:
+        try:
+            pkg_extras = pkg.extras
+        except AttributeError:
+            try:
+                pkg_extras = pkg['extras']
+            except KeyError:
+                return mv
+        try:
+            for extras in pkg_extras:
+                if 'key' in extras:
+                    if extras['key'] == 'view_audience':
                         mv = extras['value']
         except Exception as e:
             log.error('Except: %s' % (e,))
@@ -107,7 +155,6 @@ def get_user_orgs(user_id, role=None):
     return orgs_dict
 
 
-
 def record_is_viewable(pkg_dict, userobj):
     '''
     Checks if the user is authorized to view the dataset.
@@ -115,15 +162,18 @@ def record_is_viewable(pkg_dict, userobj):
     Government users who are not admins or editors can only see the published or pending  archive records.
     Editors and admins can see all the records of their organizations in addition to what government users can see.
     '''
-    log.info('Checking if %s is viewable' % pkg_dict['name'])
+
+    # Internal users can access all records
+    if check_if_whitelisted(c.remote_addr):
+        log.info('Access granted. %s is on white list' % c.remote_addr)
+        return True
 
     # Sysadmin can view all records
     if userobj and userobj.sysadmin == True :
         return True
-    
+
     metadata_visibility = get_package_metadata_visibility(pkg_dict)
 
-    log.info('Metadata Visibility set to %s' % (metadata_visibility))
     if userobj:
         log.info('Current user is %s' % (userobj.name))
 
@@ -145,13 +195,18 @@ def record_is_viewable(pkg_dict, userobj):
         if owner_org in user_orgs:
             return True
     
-    log.info('No authorized user found.')
     return False
 
 
 def resource_is_viewable(pkg_dict, userobj):
-    log.info('Checking if %s has accessible resources' % pkg_dict['name'])
 
+    # Internal users have universal access
+    if check_if_whitelisted(c.remote_addr):
+        log.info('Access granted. %s is on white list' % c.remote_addr)
+        return True
+
+    # We need to check the record status to handle the case where the record is private but the resource is private
+    # This should be handled at the metadata save validation, but for now, this works.
     if record_is_viewable(pkg_dict, userobj) == False:
         return False
 
@@ -159,20 +214,12 @@ def resource_is_viewable(pkg_dict, userobj):
     if userobj and userobj.sysadmin == True:
         return True
 
-    if 'view_audience' in pkg_dict:
-        view_audience = pkg_dict['view_audience']
-    else:
-        view_audience = get_package_extras_by_key('view_audience', pkg_dict)
+    view_audience = get_view_audience(pkg_dict)
 
-    log.info('view_audience set to %s' % (view_audience))
     if userobj:
         log.info('Current user is %s' % (userobj.name))
 
-    if view_audience == 'Public':
-        return True
-
-    # We might have legacy datasets that do not contain the metadata_visibility field.
-    if view_audience is None:
+    if view_audience == 'Public' or view_audience is None:
         return True
 
     if 'owner_org' in pkg_dict:
@@ -186,7 +233,6 @@ def resource_is_viewable(pkg_dict, userobj):
         if owner_org in user_orgs:
             return True
 
-    log.info('No authorized user found.')
     return False
 
 def most_recent_resource_update(pkg_dict):

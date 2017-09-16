@@ -1,0 +1,23 @@
+{% ckan_extends %}
+
+{% import 'macros/form.html' as form %}
+
+{% block admin_form %}
+
+  {{ super() }}
+
+  <h3>Custom configuration options </h3>
+
+  {{ form.input('ckanext.surrey_whitelist', id='field-ckanext.surrey_whitelist', label=_('IP Whitelist'), value=data['ckanext.surrey_whitelist'], error=errors['ckanext.surrey_whitelist']) }}
+
+
+{% endblock %}
+
+
+{% block admin_form_help %}
+
+  {{ super() }}
+
+  <p><strong>IP Whitelist:</strong> IP addresses or address ranges that can access private datasets without restriction.</p>
+
+{% endblock %}

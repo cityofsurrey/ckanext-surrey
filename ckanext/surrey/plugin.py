@@ -2,7 +2,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as tk
 import time
 
-from ckanext.surrey.util.util import get_orgs_user_can_edit, record_is_viewable, resource_is_viewable, most_recent_resource_update
+from ckanext.surrey.util.util import get_orgs_user_can_edit, record_is_viewable, resource_is_viewable, most_recent_resource_update, check_if_whitelisted
 from ckan.lib.navl.validators import not_empty
 from ckan.common import _, request, c, response, g
 import ckan.logic as logic
@@ -17,7 +17,10 @@ NotFound = logic.NotFound
 # Our custom template helper function.
 def format_date(date):
     '''Take timestamp and return a formatted date Month, day Year.'''
-    mytime = time.strptime(date[:10], "%Y-%m-%d")
+    try:
+        mytime = time.strptime(date[:10], "%Y-%m-%d")
+    except:
+        return None
     output = time.strftime("%B %d, %Y", mytime)
     # Just return some example text.
     return output
@@ -123,6 +126,19 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         plugins.toolkit.add_template_directory(config, 'templates')
         plugins.toolkit.add_public_directory(config, 'public')
         plugins.toolkit.add_resource('fanstatic_library', 'ckanext-surrey')
+
+
+    # Rather than have the IP white list require a full server reboot, we will
+    # add a configuration option to make it editable by an admin
+
+    def update_config_schema(self, schema):
+        ignore_missing = tk.get_validator('ignore_missing')
+        # list_of_strings = tk.get_validator('list_of_strings')
+        # convert_to_list_if_string = tk.get_validator('convert_to_list_if_string')
+        schema.update({
+            'ckanext.surrey_whitelist': [ignore_missing]
+        })
+        return schema
 
     # Tell CKAN what custom template helper functions this plugin provides,
     # see the ITemplateHelpers plugin interface.
@@ -357,7 +373,6 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
             search_params['sort'] = 'record_publish_date desc, metadata_modified desc'
 
         # Change the query filter depending on the user
-
         if 'fq' in search_params:
             fq = search_params['fq']
         else:
@@ -377,6 +392,8 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
 
             #  There are no restrictions for sysadmin
             if c.userobj and c.userobj.sysadmin == True:
+                fq += ' '
+            elif check_if_whitelisted(c.remote_addr): # Whitelist set via CKAN admin config panel
                 fq += ' '
             else:
                 if user_name != 'visitor':
@@ -407,10 +424,12 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         return search_params
 
     def after_search(self, search_results, search_params):
-        # log.info('Search results: %s' % (search_results))
         return search_results
 
     def before_view(self, pkg_dict):
+        if check_if_whitelisted(c.remote_addr): # Whitelist set via CKAN admin config panel
+            return pkg_dict
+
         if not record_is_viewable(pkg_dict, c.userobj):
             base.abort(401, _('Unauthorized to read package %s') % pkg_dict.get("title"))
 
