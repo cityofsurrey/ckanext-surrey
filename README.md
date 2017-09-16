@@ -30,6 +30,12 @@ ckan.plugins =  ... stats pages...
 ckan.tracking_enabled = true 
 ```
 
+The extension also offers the ability to control access via a whitelist which can be set via the admin panel.
+
+The admin panel field will accept either an IP address (1.2.3.4), an IP range (1.2.3.4/8), or a combination.
+If you are granting access to multiple IPs or IP ranges, list them separated by a space, a comma, or a semicomma.
+
+
 The template need the follow pages to be created:
 
 - faq
