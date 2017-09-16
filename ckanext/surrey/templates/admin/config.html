@@ -18,6 +18,8 @@
 
   {{ super() }}
 
-  <p><strong>IP Whitelist:</strong> IP addresses or address ranges that can access private datasets without restriction.</p>
+    <p><strong>IP Whitelist:</strong> IP addresses or address ranges that can access private datasets without restriction.</p>
+    <p>Will accept either an IP address (1.2.3.4), an IP range (1.2.3.4/8), or a combination.</p>
+    <p>Separate multiple IPs or IP ranges with a space, a comma, or a semicomma.</p>
 
 {% endblock %}
