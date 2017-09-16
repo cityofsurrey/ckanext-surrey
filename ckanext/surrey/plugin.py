@@ -133,8 +133,6 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
 
     def update_config_schema(self, schema):
         ignore_missing = tk.get_validator('ignore_missing')
-        # list_of_strings = tk.get_validator('list_of_strings')
-        # convert_to_list_if_string = tk.get_validator('convert_to_list_if_string')
         schema.update({
             'ckanext.surrey_whitelist': [ignore_missing]
         })
