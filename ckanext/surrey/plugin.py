@@ -366,49 +366,52 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         Customizes package search and applies filters based on the dataset metadata-visibility
         and user roles.
         '''
+
         # Change the default sort order when no query passed
         if not search_params.get('q') and search_params.get('sort') in (None, 'rank'):
             search_params['sort'] = 'record_publish_date desc, metadata_modified desc'
 
         # Change the query filter depending on the user
+
         if 'fq' in search_params:
             fq = search_params['fq']
+
         else:
             fq = ''
 
+        if 'facet.field' in search_params:
+            ff = search_params['facet.field']
         # need to append solr param q.op to force an AND query
         if 'q' in search_params:
             q = search_params['q']
             if q != '':
                 q = '{!lucene q.op=AND}' + q
                 search_params['q'] = q
-        else:
-            q = ''
 
         try:
             user_name = c.user or 'visitor'
+	    white_listed = check_if_whitelisted(c.remote_addr)
 
             #  There are no restrictions for sysadmin
-            if c.userobj and c.userobj.sysadmin == True:
-                fq += ' '
-            elif check_if_whitelisted(c.remote_addr): # Whitelist set via CKAN admin config panel
+            if (c.userobj and c.userobj.sysadmin == True) or white_listed:
                 fq += ' '
             else:
-                if user_name != 'visitor':
-                    fq += ' +('
-                    if 'owner_org' not in fq:
+                fq += ' -metadata_visibility:("Private")'
+                #if user_name != 'visitor':
+                #    fq += ' +('
+                #    if 'owner_org' not in fq:
 
-                        user_id = c.userobj.id
-                        # Get the list of orgs that the user is an admin or editor of
-                        user_orgs = get_orgs_user_can_edit(c.userobj)
-                        if user_orgs != []:
-                            fq += ' OR ' + 'owner_org:(' + ' OR '.join(user_orgs) + ')'
+                #        user_id = c.userobj.id
+                #        # Get the list of orgs that the user is an admin or editor of
+                #        user_orgs = get_orgs_user_can_edit(c.userobj)
+                #        if user_orgs != []:
+                #            fq += ' OR ' + 'owner_org:(' + ' OR '.join(user_orgs) + ')'
 
-                        fq += ')'
-                # Public user can only view public and published records
-                # All need to check for the absence of the metadata_visibility field to handle legacy datasets
-                else:
-                    fq += ' -metadata_visibility:("Private")'
+                #        fq += ')'
+                ## Public user can only view public and published records
+                ## All need to check for the absence of the metadata_visibility field to handle legacy datasets
+                #else:
+                #    fq += ' -metadata_visibility:("Private")'
 
         except Exception:
             if 'fq' in search_params:
@@ -418,7 +421,6 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
             fq += ' -metadata_visibility:("Private")'
 
         search_params['fq'] = fq
-        log.info('Query string is %s' % (fq,))
         return search_params
 
     def after_search(self, search_results, search_params):
