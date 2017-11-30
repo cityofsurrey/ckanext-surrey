@@ -3,13 +3,13 @@ import re
 from logging import getLogger
 import ckan.model as model
 import ckan.plugins.toolkit as toolkit
-from ckan.common import  c
+from ckan.common import c
 import pylons.config as config
 from ckan.lib.base import _
 from IPy import IP
 
-
 log = getLogger(__name__)
+
 
 def get_whitelist_settings():
     white_list = config.get('ckanext.surrey_whitelist', '')
@@ -20,14 +20,15 @@ def get_whitelist_settings():
         return white_list.split(',')
     return white_list
 
+
 def check_if_whitelisted(remote_addr):
     '''Load white list from settings. Returns true if settings are missing.'''
     white_list_settings = get_whitelist_settings()
-    log.info(white_list_settings)
+    #    log.info(white_list_settings)
     if white_list_settings:
         surrey_white_list = [IP(wl) for wl in white_list_settings]
         for white_list in surrey_white_list:
-            log.info('Checking if %s is in whitelist: %s' % (remote_addr, white_list))
+            #           log.info('Checking if %s is in whitelist: %s' % (remote_addr, white_list))
             if remote_addr in white_list:
                 return True
     return False
@@ -73,6 +74,7 @@ def get_package_metadata_visibility(pkg):
             log.error('Except: %s' % (e,))
     return mv
 
+
 def get_view_audience(pkg):
     mv = None
     try:
@@ -94,6 +96,7 @@ def get_view_audience(pkg):
             log.error('Except: %s' % (e,))
     return mv
 
+
 def get_package_owner_org(pkg):
     try:
         oo = pkg.owner_org
@@ -101,6 +104,7 @@ def get_package_owner_org(pkg):
         log.info('Exception %s' % (e))
         return False
     return oo
+
 
 def get_username(id):
     '''
@@ -122,7 +126,6 @@ def get_orgs_user_can_edit(userobj):
 
     if not userobj:
         return []
-
 
     '''
     context = {'model': model, 'session': model.Session,
@@ -147,7 +150,6 @@ def get_user_orgs(user_id, role=None):
         .filter(model.Member.table_id == user_id) \
         .filter(model.Member.capacity == role)
 
-
     org_ids = member_query.distinct()
 
     orgs_dict = [org.__dict__ for org in org_ids.all()]
@@ -169,7 +171,7 @@ def record_is_viewable(pkg_dict, userobj):
         return True
 
     # Sysadmin can view all records
-    if userobj and userobj.sysadmin == True :
+    if userobj and userobj.sysadmin == True:
         return True
 
     metadata_visibility = get_package_metadata_visibility(pkg_dict)
@@ -177,10 +179,10 @@ def record_is_viewable(pkg_dict, userobj):
     if userobj:
         log.info('Current user is %s' % (userobj.name))
 
-    if metadata_visibility == 'Public' :
+    if metadata_visibility == 'Public':
         return True
-    
-    # We might have legacy datasets that do not contain the metadata_visibility field. 
+
+    # We might have legacy datasets that do not contain the metadata_visibility field.
     if metadata_visibility is None:
         return True
 
@@ -194,12 +196,11 @@ def record_is_viewable(pkg_dict, userobj):
 
         if owner_org in user_orgs:
             return True
-    
+
     return False
 
 
 def resource_is_viewable(pkg_dict, userobj):
-
     # Internal users have universal access
     if check_if_whitelisted(c.remote_addr):
         log.info('Access granted. %s is on white list' % c.remote_addr)
@@ -234,6 +235,7 @@ def resource_is_viewable(pkg_dict, userobj):
             return True
 
     return False
+
 
 def most_recent_resource_update(pkg_dict):
     return max([r['last_modified'] for r in pkg_dict['resources']])
