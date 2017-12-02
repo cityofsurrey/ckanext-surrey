@@ -130,24 +130,21 @@ $(document).ready(function(){
     				
     				switch(layerName){
     				
-    					case "1949 Orthophoto" : allOrthos.setVisibleLayers([36]); break;
-					case "1998 Orthophoto" : allOrthos.setVisibleLayers([35]); break;
-    					case "2001 Orthophoto" : allOrthos.setVisibleLayers([34]); break;
-    					case "2003 Satellite" : allOrthos.setVisibleLayers([33]); break;
-    					case "2004 Orthophoto" : allOrthos.setVisibleLayers([28]); break;
-    					case "2005 Orthophoto" : allOrthos.setVisibleLayers([23]); break;
-    					case "2006 Orthophoto" : allOrthos.setVisibleLayers([18]); break;
-    					case "2007 Orthophoto" : allOrthos.setVisibleLayers([13]); break;
-    					case "2008 Orthophoto" : allOrthos.setVisibleLayers([18]); break;
-    					case "2009 Orthophoto" : allOrthos.setVisibleLayers([11]); break;							
-    					case "2010 Orthophoto" : allOrthos.setVisibleLayers([10]); break;
-    					case "2011 Orthophoto" : allOrthos.setVisibleLayers([9]); break;
-    					case "2012 Orthophoto" : allOrthos.setVisibleLayers([8]); break;					
-    					case "2013 Orthophoto" : allOrthos.setVisibleLayers([5]); break;
-    					case "2014 Orthophoto" : allOrthos.setVisibleLayers([4]); break;
-    					case "2015 Orthophoto" : allOrthos.setVisibleLayers([3]); break;
-					case "2016 Orthophoto" : allOrthos.setVisibleLayers([1]); break;
-					case "2017 Orthophoto" : allOrthos.setVisibleLayers([0]); break;
+    					case "1998 Orthophoto" : allOrthos.setVisibleLayers([32]); break;
+    					case "2001 Orthophoto" : allOrthos.setVisibleLayers([31]); break;
+    					case "2003 Satellite" : allOrthos.setVisibleLayers([30]); break;
+    					case "2004 Orthophoto" : allOrthos.setVisibleLayers([25]); break;
+    					case "2005 Orthophoto" : allOrthos.setVisibleLayers([20]); break;
+    					case "2006 Orthophoto" : allOrthos.setVisibleLayers([15]); break;
+    					case "2007 Orthophoto" : allOrthos.setVisibleLayers([10]); break;
+    					case "2008 Orthophoto" : allOrthos.setVisibleLayers([9]); break;
+    					case "2009 Orthophoto" : allOrthos.setVisibleLayers([8]); break;							
+    					case "2010 Orthophoto" : allOrthos.setVisibleLayers([7]); break;
+    					case "2011 Orthophoto" : allOrthos.setVisibleLayers([6]); break;
+    					case "2012 Orthophoto" : allOrthos.setVisibleLayers([5]); break;					
+    					case "2013 Orthophoto" : allOrthos.setVisibleLayers([2]); break;
+    					case "2014 Orthophoto" : allOrthos.setVisibleLayers([1]); break;
+    					case "2015 Orthophoto" : allOrthos.setVisibleLayers([0]); break;
     
     					default: break;
     
@@ -337,7 +334,7 @@ $(document).ready(function(){
     		}
     
     		var zoomlevel = map.getZoom();
-    		if (zoomlevel <=4 && layerType == "ortho"){
+    		if (zoomlevel <=2 && layerType == "ortho"){
     			alert("This extent is too large to download Ortho Imagery.  Please zoom in more and draw a new box.");
     			return;
     		}
