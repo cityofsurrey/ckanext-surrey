@@ -1,10 +1,10 @@
 {% set tags = h.get_facet_items_dict('tags', limit=3) %}
-{% set groups = h.get_group_list() %}
+{% set groups = h.get_group_list_order() %}
 {% set placeholder = _('e.g. Business Licences') %}
 
 <div class="module module-search module-narrow module-shallow box">
   <form class="module-content search-form" method="get" action="{% url_for controller='package', action='search' %}">
-    <h3 class="heading">{{ _("Search for Datasets") }}</h3>
+    <h3 class="heading">{{ _("Search Datasets") }}</h3>
     <div class="search-input control-group search-giant">
       <input type="text" class="search" name="q" value="" autocomplete="off" placeholder="{{ placeholder }}" />
       <button type="submit">
@@ -14,25 +14,55 @@
     </div>
   </form>
   <div class="tags">
-    <h3>{{ _('Popular Tags') }}</h3>
+    <h3>{{ _('Popular tags') }}</h3>
     {% for tag in tags %}
       <a class="tag" href="{% url_for controller='package', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>
     {% endfor %}
   </div>
   <div class="search-by-cat">
-      <h3 class="heading">{{ _("Search By Category") }}</h3>
+      <h3 class="heading">{{ _("Grupos") }}</h3>
       <ul class="surrey-media-grid">
 
         {% for group in groups %}
-          <li class="surrey-media-item">     
+          <li class="surrey-media-item" name="grupoL">     
               <!--h3 class="media-heading">{{ group.display_name }}</h3-->
               <a href="{{ h.url_for(controller='group', action='read', id=group.name) }}" title="{{ _('{name}').format(name=group.display_name) }}">
-              <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" />
-              <span>{{ _('{name}').format(name=group.display_name) }}</span></a>
-          </li>
+              <img class="iconoGrupoPortada" src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" />
+              <span style="font-weight:bold">{{ _('{name}').format(name=group.display_name) }}</span></a>			  
+			  <span class="count">{{ ungettext('{num} Dataset', '{num} Datasets', group.package_count).format(num=group.package_count) }}</span>			  
+        </li>
         {% endfor %}
       </ul>
       <div style="clear:both"></div> 
   </div>
 </div>
+<div id="parrafoMas" style="text-align:center;width:100%;"></div>
+  </div>
+</div>
+<script>
+var grupos=document.getElementsByName("grupoL");
+if (grupos.length>6)
+	{
+		oculta();
+	}
+	
+function muestraTodos(){
+		for (var i=6;i<grupos.length;i++)
+		{
+			grupos[i].style.display="block";
+		}
+		document.getElementById("parrafoMas").innerHTML="<div style='clear: both'><h5><a href='javascript:oculta()' style='color: #333;'>{{ _('Hide')}}</a></h5></div>";
+}	
+
+function oculta(){
+		for (var i=6;i<grupos.length;i++)
+		{
+			grupos[i].style.display="none";
+		}
+		document.getElementById("parrafoMas").innerHTML="<div style='clear: both'><h5><a href='javascript:muestraTodos()'  style='color: #333;'>{{ _('Show more')}}</a></h5></div>";
+}
+	
+</script>
+
+
 

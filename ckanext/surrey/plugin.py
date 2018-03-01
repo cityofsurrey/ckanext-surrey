@@ -43,6 +43,14 @@ def get_group_list():
 
     return groups
 
+def get_group_list_order():
+
+    groups = tk.get_action('group_list')(
+        data_dict={'all_fields': True,'sort':'packages'})
+
+    return groups
+
+
 def get_summary_list(num_packages):
     list_without_summary = \
     tk.get_action('package_search')(data_dict={'rows': num_packages, 'sort': 'metadata_modified desc'})['results']
@@ -154,6 +162,7 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
             'update_frequency': update_frequency,
             'city_departments': city_departments,
             'get_group_list': get_group_list,
+			'get_group_list_order': get_group_list_order,
             'get_summary_list': get_summary_list,
 			'get_visit_summary_list': get_visit_summary_list,
             'record_is_viewable': record_is_viewable,
