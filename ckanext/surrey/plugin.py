@@ -53,6 +53,14 @@ def get_summary_list(num_packages):
         )
     return list_with_summary
 
+def get_visit_summary_list(num_packages):
+    list_without_summary = tk.get_action('package_search')(data_dict={'rows':num_packages,'sort':'views_recent desc'})['results']
+    list_with_summary = []
+    for package in list_without_summary:
+        list_with_summary.append(tk.get_action('package_show')(
+        data_dict={'id':package['name'],'include_tracking':True})
+        )
+    return list_with_summary
 
 class SurreyFacetPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IFacets, inherit=True)
@@ -147,6 +155,7 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
             'city_departments': city_departments,
             'get_group_list': get_group_list,
             'get_summary_list': get_summary_list,
+			'get_visit_summary_list': get_visit_summary_list,
             'record_is_viewable': record_is_viewable,
             'resource_is_viewable': resource_is_viewable,
             'most_recent_resource_update': most_recent_resource_update,
