@@ -22,6 +22,10 @@ msgstr ""
 msgid "Popular datasets"
 msgstr "Conjuntos de datos más populares"
 
+
+msgid "Popular datasetsMost viewed dataset during the last 14 days"
+msgstr "Los más vistos en los últimos 14 días"
+
 #: ckanext/surrey/controller.py:76 ckanext/surrey/controller.py:88
 #: ckanext/surrey/controller.py:113 ckanext/surrey/plugin.py:452
 #, python-format
