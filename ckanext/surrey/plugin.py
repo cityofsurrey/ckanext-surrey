@@ -47,9 +47,10 @@ def get_group_list():
 def get_group_list_order():
 
     groups = tk.get_action('group_list')(
-        data_dict={'all_fields': True,'sort':'packages'})
+        data_dict={'all_fields': True,'sort':'package_count desc'})
+    realOrderedGroups = sorted(groups, key=lambda k: k['package_count'], reverse=True) 
 
-    return groups
+    return realOrderedGroups
 
 
 def get_summary_list(num_packages):
