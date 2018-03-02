@@ -24,7 +24,7 @@
       <ul class="surrey-media-grid">
 
         {% for group in groups %}
-          <li class="surrey-media-item" name="grupoL">     
+          <li class="surrey-media-item class{{ group.package_count }}" name="grupoL">     
               <!--h3 class="media-heading">{{ group.display_name }}</h3-->
               <a href="{{ h.url_for(controller='group', action='read', id=group.name) }}" title="{{ _('{name}').format(name=group.display_name) }}">
               <img class="iconoGrupoPortada" src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" alt="{{ group.name }}" />
@@ -49,7 +49,8 @@ if (grupos.length>6)
 function muestraTodos(){
 		for (var i=6;i<grupos.length;i++)
 		{
-			grupos[i].style.display="block";
+			if(grupos[i].className!='surrey-media-item class0')
+				grupos[i].style.display="block";
 		}
 		document.getElementById("parrafoMas").innerHTML="<div style='clear: both'><h5><a href='javascript:oculta()' style='color: #333;'>{{ _('Hide')}}</a></h5></div>";
 }	
@@ -63,6 +64,10 @@ function oculta(){
 }
 	
 </script>
-
+<style>
+.class0{
+    display:none;
+}
+</style>
 
 
