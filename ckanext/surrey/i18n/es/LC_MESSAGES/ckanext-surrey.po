@@ -28,7 +28,14 @@ msgstr "Los más vistos en los últimos 14 días"
 msgid "recent views"
 msgstr "visitas"
 
+msgid "Updated on "
+msgstr "Actualizado el día "
 
+msgid "Recently updated"
+msgstr "Últimas actualizaciones"
+
+msgid "Datasets recently modified"
+msgstr "Conjuntos de datos modificados recientemente"
 
 
 #: ckanext/surrey/controller.py:76 ckanext/surrey/controller.py:88
