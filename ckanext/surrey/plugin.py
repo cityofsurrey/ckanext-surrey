@@ -1,5 +1,6 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as tk
+from ckan.lib.plugins import DefaultTranslation
 import time
 
 from ckanext.surrey.util.util import get_orgs_user_can_edit, record_is_viewable, resource_is_viewable, most_recent_resource_update, check_if_whitelisted
@@ -115,11 +116,12 @@ class SurreyExtraPagesPlugin(plugins.SingletonPlugin):
         return m
 
 
-class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
+class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm, DefaultTranslation):
     '''An example that shows how to use the ITemplateHelpers plugin interface.
 
     '''
     plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IPackageController, inherit=True)

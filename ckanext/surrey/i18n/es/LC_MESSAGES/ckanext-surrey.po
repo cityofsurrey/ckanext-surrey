@@ -22,9 +22,14 @@ msgstr ""
 msgid "Popular datasets"
 msgstr "Conjuntos de datos más populares"
 
-
 msgid "Popular datasetsMost viewed dataset during the last 14 days"
 msgstr "Los más vistos en los últimos 14 días"
+
+msgid "recent views"
+msgstr "visitas"
+
+
+
 
 #: ckanext/surrey/controller.py:76 ckanext/surrey/controller.py:88
 #: ckanext/surrey/controller.py:113 ckanext/surrey/plugin.py:452
@@ -191,7 +196,7 @@ msgstr ""
 
 #: ckanext/surrey/templates/home/snippets/search.html:7
 msgid "Search Datasets"
-msgstr ""
+msgstr "Búsqueda de datos"
 
 #: ckanext/surrey/templates/home/snippets/search.html:12
 msgid "Search"
@@ -199,7 +204,7 @@ msgstr ""
 
 #: ckanext/surrey/templates/home/snippets/search.html:17
 msgid "Popular tags"
-msgstr ""
+msgstr "Etiquetas populares"
 
 #: ckanext/surrey/templates/home/snippets/search.html:23
 msgid "Grupos"
@@ -212,17 +217,17 @@ msgstr ""
 
 #: ckanext/surrey/templates/home/snippets/search.html:32
 msgid "{num} Dataset"
-msgid_plural "{num} Datasets"
-msgstr[0] ""
-msgstr[1] ""
+msgid_plural "{num} Conjuntos de datos"
+msgstr[0] "1 conjunto de datos"
+msgstr[1] "{num} Conjuntos de datos"
 
 #: ckanext/surrey/templates/home/snippets/search.html:54
 msgid "Hide"
-msgstr ""
+msgstr "Ocultar"
 
 #: ckanext/surrey/templates/home/snippets/search.html:62
 msgid "Show more"
-msgstr ""
+msgstr "Mostrar más"
 
 #: ckanext/surrey/templates/package/base.html:10
 msgid "Create Dataset"
