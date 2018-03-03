@@ -83,7 +83,6 @@ class SurreyPackageController(PackageController):
         '''
 
         result = super(SurreyPackageController, self).resource_read(id, resource_id)
-        log.debug('Called resource_read method')
         if not record_is_viewable(c.pkg_dict, c.userobj):
             base.abort(401, _('Unauthorized to read package %s') % id)
         if not resource_is_viewable(c.pkg_dict, c.userobj):

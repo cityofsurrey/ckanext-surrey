@@ -10,13 +10,13 @@ import ckan.lib.base as base
 from logging import getLogger
 log = getLogger(__name__)
 
-
 NotAuthorized = logic.NotAuthorized
 NotFound = logic.NotFound
 
+
 # Our custom template helper function.
 def format_date(date):
-    '''Take timestamp and return a formatted date Month, day Year.'''
+    """Take timestamp and return a formatted date Month, day Year."""
     try:
         mytime = time.strptime(date[:10], "%Y-%m-%d")
     except:
@@ -25,9 +25,11 @@ def format_date(date):
     # Just return some example text.
     return output
 
+
 def update_frequency():
     frequency_list = (u"Yearly", u"Monthly", u"Weekly", u"Daily", u"Realtime", u"Punctual", u"Variable", u"Never")
     return frequency_list
+
 
 def city_departments():
     department_list = (
@@ -37,11 +39,12 @@ def city_departments():
     )
     return department_list
 
+
 def get_group_list():
     groups = tk.get_action('group_list')(
         data_dict={'all_fields': True})
-
     return groups
+
 
 def get_summary_list(num_packages):
     list_without_summary = \
@@ -100,15 +103,12 @@ class SurreyExtraPagesPlugin(plugins.SingletonPlugin):
 
 
 class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
-    '''An example that shows how to use the ITemplateHelpers plugin interface.
-
-    '''
+    """An example that shows how to use the ITemplateHelpers plugin interface."""
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=False)
-
 
     num_times_new_template_called = 0
     num_times_read_template_called = 0
@@ -351,7 +351,6 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
             m.connect('dataset read', '/{id}', action='read', ckan_icon='sitemap')
             m.connect('resources', '/resources/{id}', action='resources')
 
-
         with SubMapper(map, controller=api_controller, path_prefix='/api{ver:/1|/2|/3|}', ver='/3') as m:
             m.connect('/action/package_list', action='restricted_package_list', conditions=GET)
             m.connect('/action/current_package_list_with_resources', action='restricted_package_list_with_resources', conditions=GET)
@@ -362,10 +361,10 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         return map
 
     def before_search(self, search_params):
-        '''
+        """
         Customizes package search and applies filters based on the dataset metadata-visibility
         and user roles.
-        '''
+        """
 
         # Change the default sort order when no query passed
         if not search_params.get('q') and search_params.get('sort') in (None, 'rank'):
@@ -390,10 +389,12 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
 
         try:
             user_name = c.user or 'visitor'
-	    white_listed = check_if_whitelisted(c.remote_addr)
+            remote_addr = request.environ.get(u'HTTP_X_FORWARDED_FOR', u'')
+            remote_addr = remote_addr if remote_addr else c.remote_addr
+            white_listed = check_if_whitelisted(remote_addr) or check_if_whitelisted(c.remote_addr)
 
             #  There are no restrictions for sysadmin
-            if (c.userobj and c.userobj.sysadmin == True) or white_listed:
+            if (c.userobj and c.userobj.sysadmin is True) or white_listed:
                 fq += ' '
             else:
                 fq += ' -metadata_visibility:("Private")'
@@ -427,7 +428,9 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         return search_results
 
     def before_view(self, pkg_dict):
-        if check_if_whitelisted(c.remote_addr): # Whitelist set via CKAN admin config panel
+        remote_addr = request.environ.get(u'HTTP_X_FORWARDED_FOR', u'')
+        remote_addr = remote_addr if remote_addr else c.remote_addr
+        if check_if_whitelisted(remote_addr) or check_if_whitelisted(c.remote_addr):
             return pkg_dict
 
         if not record_is_viewable(pkg_dict, c.userobj):
@@ -436,10 +439,10 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm):
         return pkg_dict
 
     def before_index(self, pkg_dict):
-        '''
+        """
         Makes the sort by name case insensitive.
         Note that the search index must be rebuild for the first time in order for the changes to take affect.
-        '''
+        """
         title = pkg_dict['title']
         if title:
             # Assign title to title_string with all characters switched to lower case.
