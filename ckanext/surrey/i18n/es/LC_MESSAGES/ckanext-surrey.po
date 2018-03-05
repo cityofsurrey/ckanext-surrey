@@ -19,9 +19,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
+msgid "Dataset"
+msgstr "Conjunto de datos"
+
+msgid "Activity Stream"
+msgstr "Flujo de actividad"
+
+msgid "Showcases"
+msgstr "Destacados"
+
+msgid "Followers"
+msgstr "Seguidores"
+
+msgid "Organization"
+msgstr "Organización"
+
+msgid "Field"
+msgstr "Campo"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Source"
+msgstr "Fuente"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "State"
+msgstr "Estado"
+
+msgid "Maintainer"
+msgstr "Mantenedor"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "License"
+msgstr "Licencia"
+
+msgid "Formats"
+msgstr "Formatos"
+
+msgid "Categories"
+msgstr "Categorías"
+
+msgid "Tags"
+msgstr "Etiquetas"
+
 msgid "eg: spending"
 msgstr "ej: equipamientos"
-
 
 msgid "Popular datasets"
 msgstr "Conjuntos de datos más populares"
