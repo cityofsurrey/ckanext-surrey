@@ -243,12 +243,12 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm, Defau
 
     def create_package_schema(self):
         schema = super(SurreyTemplatePlugin, self).create_package_schema()
-        schema = self._modify_package_schema(schema)
+        #schema = self._modify_package_schema(schema)
         return schema
 
     def update_package_schema(self):
         schema = super(SurreyTemplatePlugin, self).update_package_schema()
-        schema = self._modify_package_schema(schema)
+        #schema = self._modify_package_schema(schema)
         return schema
 
     def show_package_schema(self):

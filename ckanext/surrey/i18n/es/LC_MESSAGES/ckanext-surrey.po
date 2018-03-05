@@ -19,6 +19,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
+msgid "eg: spending"
+msgstr "ej: equipamientos"
+
+
 msgid "Popular datasets"
 msgstr "Conjuntos de datos más populares"
 
