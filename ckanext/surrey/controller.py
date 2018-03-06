@@ -328,21 +328,27 @@ class SuggestController(base.BaseController):
             # #1799 User has managed to register whilst logged in - warn user
             # they are not re-logged in as new user.
             mail_to = config.get('email_to')
-            recipient_name = 'CKAN Surrey'
-            subject = 'CKAN - Dataset suggestion'
+            mail_to_cc = config.get('email_to_cc')
+            recipient_name = 'Administrador'
+            subject = 'Portal de Datos Abiertos - Sugerencia de datos'
 
-            body = 'Submitted by %s (%s)\n' % (data_dict["name"], data_dict["email"])
+            body = 'Enviado por %s (%s)\n' % (data_dict["name"], data_dict["email"])
 
             if (data_dict["category"] != ''):
-                body += 'Category: %s' % data_dict["category"]
+                body += 'Tema: %s' % data_dict["category"]
 
-            body += 'Request: %s' % data_dict["suggestion"]
+            body += 'Sugerencia: %s' % data_dict["suggestion"]
 
             try:
                 mailer.mail_recipient(recipient_name, mail_to,
-                                      subject, body)
+                        subject, body)
+                mailer.mail_recipient(recipient_name, mail_to_cc,
+                        subject, body)
             except mailer.MailerException:
                 raise
+
+
+            
 
             return base.render('suggest/suggest_success.html')
 

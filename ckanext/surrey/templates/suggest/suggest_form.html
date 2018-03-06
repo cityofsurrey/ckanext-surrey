@@ -5,13 +5,13 @@
 
   <fieldset>
 
-    {{ form.input('name', label=_('Contact Name'), id='field-name', value=data.name, error=errors.name, classes=['control-medium'], is_required=true) }}
+    {{ form.input('name', label=_('Nombre de contacto'), id='field-name', value=data.name, error=errors.name, classes=['control-medium'], is_required=true) }}
 
-    {{ form.input('email', label=_('Email'), id='field-email', type='email', value=data.email, error=errors.email, classes=['control-medium'], is_required=true) }}
+    {{ form.input('email', label=_('Correo electrónico'), id='field-email', type='email', value=data.email, error=errors.email, classes=['control-medium'], is_required=true) }}
 
-    {{ form.input('category', label=_('Category'), id='field-category', value=data.category, error=errors.category, placeholder=_('eg. Environment, Finance, Park, etc.'), classes=['control-medium']) }}
+    {{ form.input('category', label=_('Categoría'), id='field-category', value=data.category, error=errors.category, placeholder=_('ej. Medio ambiente, Finanzas, Parques, etc'), classes=['control-medium']) }}
 
-    {{ form.markdown('suggestion', label=_('Your Request'), id='field-suggestion', value=data.suggestion, error=errors.suggestion, placeholder=_('What data are you looking for and why?'), is_required=true) }}
+    {{ form.markdown('suggestion', label=_('Tu propuesta'), id='field-suggestion', value=data.suggestion, error=errors.suggestion, placeholder=_('¿Qué datos estás buscando y por qué?'), is_required=true) }}
 
   {% if g.recaptcha_publickey %}
     {% snippet "user/snippets/recaptcha.html", public_key=g.recaptcha_publickey %}
@@ -23,4 +23,22 @@
     {{ form.required_message() }}
     <button class="btn btn-primary" type="submit" name="save">{{ _('Submit') }}</button>
   </div>
+  <br/>
+  
 </form>
+
+<script>
+
+document.getElementById("field-name").value="Ciudadano Anónimo";
+document.getElementById("field-email").value="CiudadanoAnonimo@rivasciudad.es";
+
+document.getElementById("field-name").parentNode.parentNode.style.display="none";
+document.getElementById("field-email").parentNode.parentNode.style.display="none";
+document.getElementById("field-category").parentNode.parentNode.style.display="none";
+
+n=document.getElementById("field-suggestion");
+do n = n.nextSibling;
+while (n && n.nodeType != 1);
+n.innerHTML="";
+
+</script>
