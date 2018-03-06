@@ -117,7 +117,7 @@ class SurreyExtraPagesPlugin(plugins.SingletonPlugin):
         return m
 
 
-class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm, DefaultTranslation):
+class SurreyTemplatePlugin(plugins.SingletonPlugin, DefaultTranslation):
     '''An example that shows how to use the ITemplateHelpers plugin interface.
 
     '''
@@ -125,8 +125,7 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, tk.DefaultDatasetForm, Defau
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
-    plugins.implements(plugins.IPackageController, inherit=True)
-    plugins.implements(plugins.IDatasetForm, inherit=False)
+    plugins.implements(plugins.IPackageController, inherit=True)    
 
 
     num_times_new_template_called = 0
