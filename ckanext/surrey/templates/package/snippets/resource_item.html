@@ -1,0 +1,24 @@
+{% ckan_extends %}
+
+{% set odata_formats = [ 'csv' ] %}
+
+{% block resource_item_title %} 
+  
+  <div>  
+  <a href="{{ url }}" title="{{ res.name or res.description }}">
+	<span class="heading" style="display:inline">
+		{{ h.resource_display_name(res) | truncate(50) }} 
+	</span>
+  </a>
+  {% if res.datastore_active  == true and res.format.lower() in odata_formats %}  
+	<a href="{{ h.ckanext_odata_link(res.id) }}" target="oData" title="punto de oData"><img src="/images/odata.png" alt="oData"></a>	
+  {% endif %}
+	
+	<span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
+	
+    {{ h.popular('views', res.tracking_summary.total, min=10) }}
+  
+  </div>
+  
+  {% endblock %}
+
