@@ -15,8 +15,6 @@ from urllib import urlencode
 from ckan.controllers.package import PackageController
 from ckan.controllers.api import ApiController
 
-from ckanext.surrey.util.util import record_is_viewable, resource_is_viewable, check_if_whitelisted
-
 DataError = dictization_functions.DataError
 unflatten = dictization_functions.unflatten
 
@@ -62,34 +60,6 @@ class SurreyPackageController(PackageController):
         else:
             redirect(url_with_params(url, params))
 
-    def read(self, id):
-        '''
-                First calls ckan's default read to get package data.
-                Then it checks if the package can be viewed by the user
-                '''
-        # the ofi object is now in the global vars for this view, to use it in templates, call `c.ofi`
-        result = super(SurreyPackageController, self).read(id)
-
-        log.debug('Called read method')
-        # Check if user can view this record
-        if not record_is_viewable(c.pkg_dict, c.userobj):
-            base.abort(401, _('Unauthorized to read package %s') % id)
-        return result
-
-    def resource_read(self, id, resource_id):
-        '''
-        First calls ckan's default resource read to get the resource and package data.
-        Then it checks if the resource can be viewed by the user
-        '''
-
-        result = super(SurreyPackageController, self).resource_read(id, resource_id)
-        log.debug('Called resource_read method')
-        if not record_is_viewable(c.pkg_dict, c.userobj):
-            base.abort(401, _('Unauthorized to read package %s') % id)
-        if not resource_is_viewable(c.pkg_dict, c.userobj):
-            base.abort(401, _('Unauthorized to read resource %s') % c.pkg_dict['name'])
-        return result
-
     def request_access(self, id):
         context = {'model': model, 'session': model.Session,
                    'user': c.user or c.author, 'auth_user_obj': c.userobj}
@@ -99,24 +69,7 @@ class SurreyPackageController(PackageController):
             abort(404, _('Resource not found'))
         return base.render('package/request_access.html', extra_vars={'package': id, 'package_name': pkg['title']})
 
-    def resource_download(self, id, resource_id, filename=None):
-        context = {'model': model, 'session': model.Session,
-                   'user': c.user or c.author, 'auth_user_obj': c.userobj}
-        try:
-            pkg = get_action('package_show')(context, {'id': id})
-        except NotFound:
-            abort(404, _('Resource not found'))
-        except NotAuthorized:
-            abort(401, _('Unauthorized to read resource %s') % id)
-
-        if not record_is_viewable(pkg, c.userobj):
-            base.abort(401, _('Unauthorized to read package %s') % id)
-        if not resource_is_viewable(pkg, c.userobj):
-            base.abort(401, _('Unauthorized to read resource %s') % pkg['name'])
-        result = super(SurreyPackageController, self).resource_download(id, resource_id, filename)
-        return result
-
-
+    
 class SurreyAPIController(ApiController):
     def restricted_package_list(self):
         '''
@@ -218,52 +171,7 @@ class SurreyAPIController(ApiController):
         return_dict['result'] = query['results']
         return self._finish_ok(return_dict)
 
-    def restricted_package_show(self):
-        '''
-        Returns record's data with the given id only if the user is allowed to view the record.
-        '''
-        # FIXME: use IAuth plugin for authorization check and
-        # use IPackageController to fill in extra values
-        # then remove this method
-
-        help_str = "Shows the package info with the given id. Param : id"
-        pkg_id = request.params.get('id', '')
-        return_dict = {"help": help_str}
-        try:
-            context = {'model': model, 'session': model.Session, 'user': c.user, 'auth_user_obj': c.userobj}
-            pkg = get_action('package_show')(context, {'id': pkg_id})
-
-            from ckanext.surrey.util.util import record_is_viewable, resource_is_viewable
-
-            if not record_is_viewable(pkg, c.userobj):
-                return_dict['success'] = False
-                return_dict['error'] = {'__type': 'Authorization Error', 'message': _('Access denied')}
-                return self._finish(403, return_dict, content_type='json')
-            if not resource_is_viewable(pkg, c.userobj):
-                pkg['resources'] = None
-                return_dict[
-                    'msg'] = "Access to these resources are restricted. Please submit an FOI request via http://www.surrey.ca/city-government/3062.aspx or contact opendata@surrey.ca."
-            return_dict['success'] = True
-            return_dict['result'] = pkg
-        except NotFound as e:
-            return_dict['error'] = {'__type': 'Not Found Error',
-                                    'message': _('Not found')}
-            if hasattr(e, 'extra_msg'):
-                return_dict['error']['message'] += ': %s' % e.extra_msg
-            return_dict['success'] = False
-            return self._finish(404, return_dict, content_type='json')
-        except ValidationError as e:
-            error_dict = e.error_dict
-            error_dict['__type'] = 'Validation Error'
-            return_dict['error'] = error_dict
-            return_dict['success'] = False
-            # CS nasty_string ignore
-            log.error('Validation error: %r' % str(e.error_dict))
-            return self._finish(200, return_dict, content_type='json')
-
-        return self._finish_ok(return_dict)
-
-
+    
 class FollowController(base.BaseController):
     def __before__(self, action, **env):
         base.BaseController.__before__(self, action, **env)

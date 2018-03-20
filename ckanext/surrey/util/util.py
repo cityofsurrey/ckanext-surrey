@@ -6,7 +6,7 @@ import ckan.plugins.toolkit as toolkit
 from ckan.common import c
 import pylons.config as config
 from ckan.lib.base import _
-from IPy import IP
+
 
 log = getLogger(__name__)
 
@@ -19,19 +19,6 @@ def get_whitelist_settings():
             white_list = white_list.replace(ch, ',')
         return white_list.split(',')
     return white_list
-
-
-def check_if_whitelisted(remote_addr):
-    '''Load white list from settings. Returns true if settings are missing.'''
-    white_list_settings = get_whitelist_settings()
-    #    log.info(white_list_settings)
-    if white_list_settings:
-        surrey_white_list = [IP(wl) for wl in white_list_settings]
-        for white_list in surrey_white_list:
-            #           log.info('Checking if %s is in whitelist: %s' % (remote_addr, white_list))
-            if remote_addr in white_list:
-                return True
-    return False
 
 
 def get_package_extras_by_key(pkg_extra_key, pkg_dict):
@@ -156,85 +143,6 @@ def get_user_orgs(user_id, role=None):
 
     return orgs_dict
 
-
-def record_is_viewable(pkg_dict, userobj):
-    '''
-    Checks if the user is authorized to view the dataset.
-    Public users can only see published or pending archive records and only if the metadata-visibility is public.
-    Government users who are not admins or editors can only see the published or pending  archive records.
-    Editors and admins can see all the records of their organizations in addition to what government users can see.
-    '''
-
-    # Internal users can access all records
-    if check_if_whitelisted(c.remote_addr):
-        log.info('Access granted. %s is on white list' % c.remote_addr)
-        return True
-
-    # Sysadmin can view all records
-    if userobj and userobj.sysadmin == True:
-        return True
-
-    metadata_visibility = get_package_metadata_visibility(pkg_dict)
-
-    if userobj:
-        log.info('Current user is %s' % (userobj.name))
-
-    if metadata_visibility == 'Public':
-        return True
-
-    # We might have legacy datasets that do not contain the metadata_visibility field.
-    if metadata_visibility is None:
-        return True
-
-    if 'owner_org' in pkg_dict:
-        owner_org = pkg_dict['owner_org']
-    else:
-        owner_org = get_package_extras_by_key('owner_org', pkg_dict)
-
-    if userobj:
-        user_orgs = get_orgs_user_can_edit(userobj)
-
-        if owner_org in user_orgs:
-            return True
-
-    return False
-
-
-def resource_is_viewable(pkg_dict, userobj):
-    # Internal users have universal access
-    if check_if_whitelisted(c.remote_addr):
-        log.info('Access granted. %s is on white list' % c.remote_addr)
-        return True
-
-    # We need to check the record status to handle the case where the record is private but the resource is private
-    # This should be handled at the metadata save validation, but for now, this works.
-    if record_is_viewable(pkg_dict, userobj) == False:
-        return False
-
-    # Sysadmin can view all records
-    if userobj and userobj.sysadmin == True:
-        return True
-
-    view_audience = get_view_audience(pkg_dict)
-
-    if userobj:
-        log.info('Current user is %s' % (userobj.name))
-
-    if view_audience == 'Public' or view_audience is None:
-        return True
-
-    if 'owner_org' in pkg_dict:
-        owner_org = pkg_dict['owner_org']
-    else:
-        owner_org = get_package_extras_by_key('owner_org', pkg_dict)
-
-    if userobj:
-        user_orgs = get_orgs_user_can_edit(userobj)
-
-        if owner_org in user_orgs:
-            return True
-
-    return False
 
 
 def most_recent_resource_update(pkg_dict):

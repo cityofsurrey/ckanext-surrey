@@ -3,7 +3,6 @@ import ckan.plugins.toolkit as tk
 from ckan.lib.plugins import DefaultTranslation
 import time
 
-from ckanext.surrey.util.util import get_orgs_user_can_edit, record_is_viewable, resource_is_viewable, most_recent_resource_update, check_if_whitelisted
 from ckan.lib.navl.validators import not_empty
 from ckan.common import _, request, c, response, g
 import ckan.logic as logic
@@ -166,10 +165,7 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, DefaultTranslation):
             'get_group_list': get_group_list,
 			'get_group_list_order': get_group_list_order,
             'get_summary_list': get_summary_list,
-			'get_visit_summary_list': get_visit_summary_list,
-            'record_is_viewable': record_is_viewable,
-            'resource_is_viewable': resource_is_viewable,
-            'most_recent_resource_update': most_recent_resource_update,
+			'get_visit_summary_list': get_visit_summary_list,            
         }
 
     def is_fallback(self):
@@ -380,80 +376,6 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     def after_map(self, map):
         return map
-
-    def before_search(self, search_params):
-        '''
-        Customizes package search and applies filters based on the dataset metadata-visibility
-        and user roles.
-        '''
-
-        # Change the default sort order when no query passed
-        if not search_params.get('q') and search_params.get('sort') in (None, 'rank'):
-            search_params['sort'] = 'record_publish_date desc, metadata_modified desc'
-
-        # Change the query filter depending on the user
-
-        if 'fq' in search_params:
-            fq = search_params['fq']
-
-        else:
-            fq = ''
-
-        if 'facet.field' in search_params:
-            ff = search_params['facet.field']
-        # need to append solr param q.op to force an AND query
-        if 'q' in search_params:
-            q = search_params['q']
-            if q != '':
-                q = '{!lucene q.op=AND}' + q
-                search_params['q'] = q
-
-        try:
-            user_name = c.user or 'visitor'
-	    white_listed = check_if_whitelisted(c.remote_addr)
-
-            #  There are no restrictions for sysadmin
-            if (c.userobj and c.userobj.sysadmin == True) or white_listed:
-                fq += ' '
-            else:
-                fq += ' -metadata_visibility:("Private")'
-                #if user_name != 'visitor':
-                #    fq += ' +('
-                #    if 'owner_org' not in fq:
-
-                #        user_id = c.userobj.id
-                #        # Get the list of orgs that the user is an admin or editor of
-                #        user_orgs = get_orgs_user_can_edit(c.userobj)
-                #        if user_orgs != []:
-                #            fq += ' OR ' + 'owner_org:(' + ' OR '.join(user_orgs) + ')'
-
-                #        fq += ')'
-                ## Public user can only view public and published records
-                ## All need to check for the absence of the metadata_visibility field to handle legacy datasets
-                #else:
-                #    fq += ' -metadata_visibility:("Private")'
-
-        except Exception:
-            if 'fq' in search_params:
-                fq = search_params['fq']
-            else:
-                fq = ''
-            fq += ' -metadata_visibility:("Private")'
-
-        search_params['fq'] = fq
-        return search_params
-
-    def after_search(self, search_results, search_params):
-        return search_results
-
-    def before_view(self, pkg_dict):
-        if check_if_whitelisted(c.remote_addr): # Whitelist set via CKAN admin config panel
-            return pkg_dict
-
-        if not record_is_viewable(pkg_dict, c.userobj):
-            base.abort(401, _('Unauthorized to read package %s') % pkg_dict.get("title"))
-
-        return pkg_dict
 
     def before_index(self, pkg_dict):
         '''
