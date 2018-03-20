@@ -13,6 +13,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
+msgid "Popular dataset"
+msgstr "Conjunto de datos popular"
+
 msgid "Thank you!"
 msgstr "¡Muchas gracias!"
 
