@@ -349,29 +349,7 @@ class SurreyTemplatePlugin(plugins.SingletonPlugin, DefaultTranslation):
     def check_data_dict(self, data_dict, schema=None):
         SurreyTemplatePlugin.num_times_check_data_dict_called += 1
 
-    def before_map(self, map):
-        from routes.mapper import SubMapper
-
-        package_controller = 'ckanext.surrey.controller:SurreyPackageController'
-        api_controller = 'ckanext.surrey.controller:SurreyAPIController'
-
-        GET = dict(method=['GET'])
-        map.connect('home', '/', controller='home', action='index')
-
-        with SubMapper(map, controller=package_controller, path_prefix='/dataset') as m:
-            m.connect('search', '/', action='search', highlight_actions='index search')
-            m.connect('add dataset', '/new', action='new')
-            m.connect('request access', '/{id}/access', action='request_access')
-            m.connect('download resource', '/{id}/resource/{resource_id}/download/{filename}', action='resource_download')
-            m.connect('/{id}/resource/{resource_id}', action='resource_read')
-            m.connect('dataset read', '/{id}', action='read', ckan_icon='sitemap')
-            m.connect('resources', '/resources/{id}', action='resources')
-
-
-        with SubMapper(map, controller=api_controller, path_prefix='/api{ver:/1|/2|/3|}', ver='/3') as m:
-            m.connect('/action/package_list', action='restricted_package_list', conditions=GET)
-            m.connect('/action/current_package_list_with_resources', action='restricted_package_list_with_resources', conditions=GET)
-            m.connect('/action/package_show', action='restricted_package_show', conditions=GET)
+    def before_map(self, map):        
         return map
 
     def after_map(self, map):
