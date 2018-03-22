@@ -1,101 +1,23 @@
-# City of Surrey CKAN extension
+![Logo Localidata](https://raw.githubusercontent.com/localidata/ckanext-surrey/master/ckanext/surrey/public/images/logoLocalidata.png)
 
-*CKAN extension development for the implementation of the [City of Surrey](https://www.surrey.ca/)*
+ckanext-surrey
+==============
 
-The extension contains the following features:
+En Localidata hemos modificado la extensión original del [La Ciudad de Surrey](https://github.com/CityofSurrey/ckanext-surrey) para la plataforma CKAN.
 
-- Add a custom CSS file
-- Add custom pages (contact & suggest dataset forms + follow page) with implementation of iRoutes
-- Add public file (images)
-- Add custom licence
-- Add predefined extra fields at the dataset level
-- Support custom templates
-- Remove 'organization' from the facet list and various other places
-- Allows data managers to designate datasets as public, public w/ limited access to resources, private to organizational users
+[CKAN](http://ckan.org) es un portal de código abierto, diseñado y desarrolado para que los gobiernos locales y estatales puedan publicar y compartir su datos abiertos fácilmente. 
 
-More documentation available in  [ckanext/surrey/docs/customization.md](ckanext/surrey/docs/customization.md)
+Esta extensión actualmente sólo tiene la funcionalidad de Federación. 
 
-## Prerequisite
+Ha sido desarrollada para versiones 2.7.3 de CKAN.
 
-This extension needs the stats extension to be activated with the tracking options. Some links (in the footer), also need the ckanext-page extension. So install [ckanext-page](https://github.com/ckan/ckanext-pages) 
+#### Descarga y configuración de la extensión
 
-```
-pip install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages
-```
-
-Then configure the plugins in the .ini file: 
-
-```
-ckan.plugins =  ... stats pages...
-ckan.tracking_enabled = true 
-```
+-source /usr/lib/ckan/default/bin/activate
+-cd /usr/lib/ckan/default/src		
+-pip install -e git+git://github.com/localidata/ckanext-surrey.git#egg=ckanext-surrey
+-plugins: ... surrey surreyfacet surreyextrapages
 
 
-The template need the follow pages to be created:
-
-- faq
-- glossary
-- open-government-licence
-- city-of-surrey-open-data-api
-
-
-In order to refresh the most popular dataset values on the landing page, make sure to set up the cron jobs (see below).
-
-The extension has been developed and tested to run with CKAN 2.2.
-
-## Installation
-
-Activate your pyenv and go to the CKAN root, for example:
-```
- cd /usr/lib/ckan/default/
- source bin/activate
- cd src/ckan
-```
-
-Install the extension from GitHub:
-
-```
-pip install -e git+git://github.com/CityofSurrey/ckanext-surrey.git#egg=ckanext-surrey
-```
-
-To access a specific release, for example release-1.0:
-```
-pip install -e git+git://github.com/CityofSurrey/ckanext-surrey.git@release-1.0#egg=ckanext-surrey
-```
-
-
-Add the extension in the configuration file. `surrey` does most of the work, `surreyfacet` mainly removes the organization from the facet menu
-```
-ckan.plugins =  ... surrey surreyfacet surreyextrapages
-``` 
-
-Add the custom licence file in the configuration file. 
-
-```
-licenses_group_url = file:///path/to/extension/ckanext-surrey/ckanext/surrey/licences.json
-```
-
-## Custom settings
-
-### IP Whitelist
-
-The extension has the ability to control access to protected datasets via a whitelist which can be set via the admin panel.
-
-The admin panel field will accept either an IP address (1.2.3.4), an IP range (1.2.3.4/8), or a combination.
-If you are granting access to multiple IPs or IP ranges, list them separated by a space, a comma, or a semicomma.
-
-
-## Set up jobs
-
-Some cron jobs have to be set up in order to have the extension working as expected.
-
-In order to update the recent visits, the tracker and the index has to be rebuilt. The following command will do this using `crontab -e` (make sure that the path to `paster` and the .ini file correspond to your installation):
-```
-@hourly /usr/lib/ckan/default/bin/paster --plugin=ckan tracking update -c /etc/ckan/default/production.ini > /dev/null
-@hourly /usr/lib/ckan/default/bin/paster --plugin=ckan search-index rebuild -r -c /etc/ckan/default/production.ini > /dev/null
-```
-
-In order to receive mail notification (either for the admin and for the users who are registering) add the following comming in the cron jobs:
-```
-@daily echo '{}' | /usr/lib/ckan/default/bin/paster --plugin=ckan post -c /etc/ckan/default/production.ini /api/action_notifications > /dev/null
-```
+#### Eliminar
+-pip uninstall ckanext-surrey
