@@ -1,0 +1,52 @@
+#textoAviso{
+	text-align:justify;
+	margin-left:10px;
+	margin-right:20px;
+}
+
+.cookieDiv {
+width: 100%;
+height: auto;
+top: 0;
+left: 0;
+right: 0;
+position: fixed;
+background-color: #363636;
+color: #fff;
+padding-right:10px;
+padding-left:10px;
+font-size: 16px;
+min-width: 320px;
+z-index: 2;
+}
+.textoCookie {
+width: 100%;
+}
+
+.cookieDiv p, .cookieDiv a, .cookieDiv div {
+margin: 3px 0;
+}
+.botonCookie {
+padding: 5px 10px;
+background: #FFF;
+border-radius: 3px;
+cursor: pointer;
+position:relative;
+transition: none;
+text-transform: uppercase;
+text-decoration: none;
+color: #000;
+font-weight: bold;
+font-size: small;
+display: inline-block;
+text-decoration: none;
+}		
+.botonCookie:hover {
+color: #FFF;
+background: #FBBC05;
+text-decoration: none;
+}
+
+.enlaceCookie,.enlaceCookie:hover,.enlaceCookie:visited{
+color: #FBBC05;
+}

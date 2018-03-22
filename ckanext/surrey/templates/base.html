@@ -6,3 +6,14 @@
   <link type="application/atom+xml" rel="alternate" href="{{ h.url('/', locale='default', qualified=true) }}feeds/dataset.atom"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 {% endblock %}
+
+{% block body_extras -%}
+	<div class="cookieDiv" id="cookieDiv" style="display:none">
+		<div class="textoCookie">
+			<p id="textoAviso">Este sitio web utiliza cookies propias y de terceros para ofrecer un mejor servicio a los ciudadanos. Si continúa navegando consideramos que acepta su uso. Encontrará más información en nuestra <a href="/pages/aviso-legal" class="enlaceCookie">Política de cookies</a>. <a href="#" class="botonCookie">Aceptar cookies</a></p>
+		</div>		
+	</div>
+	{% resource 'ckanext-surrey/cookie/cookie.js' %}
+	{% resource 'ckanext-surrey/cookie/scriptck.js' %}
+	{% resource 'ckanext-surrey/cookie/estiloCookie.css' %}
+{%- endblock %}
