@@ -386,3 +386,12 @@ background-color: #7e9b35;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff7A7A7A', endColorstr='#ff5a5a5a', GradientType=0);
 }
+
+
+.search-form .search-input.search-giant button {
+    margin-top: -14px;    
+}
+
+.fa {
+	margin-right: 4px;
+}
