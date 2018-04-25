@@ -1,0 +1,4 @@
+{# show poular icon #}
+{% if number >= min %}
+<img src="/images/fuegoMini.gif" title="{{ title.format(number=number) }}" alt="{{ _('Popular') }}" style="vertical-align: bottom">
+{% endif %}
