@@ -1,0 +1,29 @@
+{% ckan_extends %}
+
+{% set pkg = c.pkg_dict %}
+ 
+  
+  {% block package_resources %}
+  
+    {% for extra in h.sorted_extras(pkg.extras) %}
+         {% set key, value = extra %}
+		 {% if key == 'iframeSuperior' %}			
+			<iframe width="100%" height="400" src="{{value}}" frameBorder="0" scrolling="no"></iframe>
+		 {% endif %}
+    {% endfor %}
+  
+    {% snippet "package/snippets/resources_list.html", pkg=pkg, resources=pkg.resources %}
+  {% endblock %}
+
+  {% block package_additional_info %}
+  <br/>
+  {% for extra in h.sorted_extras(pkg.extras) %}
+         {% set key, value = extra %}
+		 {% if key == 'iframeInferior' %}			
+			<iframe width="100%" height="400" src="{{value}}" frameBorder="0" scrolling="no"></iframe>
+		 {% endif %}
+    {% endfor %}
+  
+  
+    {% snippet "package/snippets/additional_info.html", pkg_dict=pkg %}
+  {% endblock %}

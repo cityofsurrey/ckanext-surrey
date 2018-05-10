@@ -1,0 +1,31 @@
+{% ckan_extends %}
+
+{% set pkg = c.pkg_dict or pkg_dict %}
+
+
+{% block breadcrumb_content %}
+  {% if pkg %}
+    {% set dataset = h.dataset_display_name(pkg) %}
+    {% if pkg.organization %}
+      {% set organization = h.get_translated(pkg.organization, 'title') or pkg.organization.name %}
+      <li>{% link_for _('Organizations'), controller='organization', action='index' %}</li>
+      <li>{% link_for organization|truncate(30), controller='organization', action='read', id=pkg.organization.name %}</li>
+    {% else %}
+      <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
+    {% endif %}
+    <li{{ self.breadcrumb_content_selected() }}>{% link_for dataset|truncate(30), controller='package', action='read', id=pkg.name %}</li>
+
+	{% for extra in h.sorted_extras(pkg.extras) %}
+         {% set key, value = extra %}
+		 {% if key == 'iframeAbsoluto' %}	
+		<div class="container">
+			<iframe width="100%" height="200" src="{{value}}" frameBorder="0" scrolling="no"></iframe>
+		</div>
+		 {% endif %}
+    {% endfor %}
+	
+  {% else %}
+    <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
+    <li class="active"><a href="">{{ _('Create Dataset') }}</a></li>
+  {% endif %}
+{% endblock %}
