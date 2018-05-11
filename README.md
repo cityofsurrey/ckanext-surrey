@@ -18,6 +18,10 @@ Ha sido desarrollada para versiones 2.7.3 de CKAN.
 - pip install -e git+git://github.com/localidata/ckanext-surrey.git#egg=ckanext-surrey
 - plugins: ... surrey surreyfacet surreyextrapages
 
+#### Funcionalidades extras
+
+- Añadir iframes en datasets usando los extras: iframeAbsoluto,iframeSuperior,iframeInferior
+
 
 #### Eliminar
 - pip uninstall ckanext-surrey
