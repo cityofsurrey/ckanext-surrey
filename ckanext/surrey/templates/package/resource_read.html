@@ -1,0 +1,136 @@
+{% ckan_extends %}
+
+{% block resource_actions_inner %}
+ 
+  {% if res.datastore_active %}
+    <li>{% snippet 'package/snippets/wizzard_api_button.html', resource=res %}</li>
+  {% endif %}
+{% endblock %}
+
+{% block resource_read_url %}
+ {{ super() }}
+ {% if res.datastore_active %}
+	
+    <div id="wizzardDiv" class="hide">
+		<h3>Wizzard API</h3>
+		<div id="wizzardContent">
+			<div class="row">
+				<div class="span7">
+					<div>
+						<h4>Campos disponibles</h4>
+						<div id="fields">
+							
+							
+							
+							
+    
+						</div>		
+					</div>
+				</div>
+				<div class="span4">
+					<div>
+						<h4>Dirección URL de consulta</h4>
+						<pre id="urlConsulta"><a title="query url" id="queryURL" href="" target="_blank"></a></pre>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<br/>
+	</div>
+	
+  {% endif %}
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+	 #urlConsulta {
+		border: 1px solid grey !important;
+		background: none;
+		padding-left: 10px;
+		padding-right: 10px;
+		}
+		
+	input[type="checkbox"] { 
+		top: -1px; 
+		margin: 0 2px 0 2px;
+	}
+		
+	 </style>
+
+{% endblock %}
+
+{% block scripts %}
+	 {{ super() }}
+	 <script type="text/javascript" src="/fanstatic/vendor/jquery.min.js"></script>	 
+	 
+	 <script>
+var actualHost="{{h.get_site_protocol_and_host()[0]}}"+"//"+"{{h.get_site_protocol_and_host()[1]}}";
+var firstQueryURL="/api/3/action/datastore_search?resource_id={{res.id}}&limit=5";
+firstQueryURL=firstQueryURL.replace("&amp;","&");
+$("#queryURL").text(actualHost+"/api/action/datastore_search_sql?sql=SELECT * from \"{{res.id}}\"");
+$("#queryURL").attr("href", "/api/action/datastore_search_sql?sql=SELECT * from %22{{res.id}}%22");
+
+
+console.log(firstQueryURL)
+$.ajax({
+  url: firstQueryURL,  
+}).done(function( data ) {
+	
+	console.log(data.result.fields)
+	$("#fields").empty();
+	$.each( data.result.fields, function( i, val ) {	
+		$( "#fields" ).append( "<div class='span2'><input onChange='lookForChanges()' type='checkbox' name='fieldsAvailable' checked='checked' value='"+val.id+"'> " + val.id+"</div>" );
+		
+	});
+}).fail(function() {
+    console.log( "error" );
+});
+
+function lookForChanges()
+{
+	console.log("change");		
+	var count=0;
+	var total=0;
+	var names="";
+	$('input[name=fieldsAvailable]').each(function () {
+		total++;
+		if (this.checked)
+		{
+			count++;
+			names+="%22"+$(this).val()+"%22,";
+		}		
+	});
+	if (count==total)
+	{
+		$("#queryURL").text(actualHost+"/api/action/datastore_search_sql?sql=SELECT * from \"{{res.id}}\"");
+		$("#queryURL").attr("href", "/api/action/datastore_search_sql?sql=SELECT * from %22{{res.id}}%22");
+	}else{
+		if (names.length>0)
+		{
+			names=names.slice(0, names.length-1);
+		}
+		$("#queryURL").text(actualHost+"/api/action/datastore_search_sql?sql=SELECT "+names+" from \"{{res.id}}\"");
+		$("#queryURL").attr("href", "/api/action/datastore_search_sql?sql=SELECT "+names+" from %22{{res.id}}%22");
+	}
+
+};
+
+function showWizard()
+{
+	if ($( "#wizzardDiv" ).is(':visible'))
+	{		
+		$( "#wizzardDiv" ).addClass( "hide" )
+	}
+	else
+	{
+		$( "#wizzardDiv" ).removeClass( "hide" )	
+	}
+}
+
+</script>
+
+	 
+{% endblock %}
+
